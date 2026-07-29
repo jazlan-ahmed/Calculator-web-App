@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body data-theme="dark">
-  <!-- Minimal Animated Background Textures -->
+  <!-- Animated Background -->
   <div class="bg-texture-grid"></div>
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
@@ -19,53 +19,103 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-  <!-- Top Welcome Banner & Quick Jump Navigation Header -->
-  <header class="app-header">
-    <div class="header-top">
-      <div class="brand">
-        <span class="icon" aria-hidden="true">🧮</span>
-        <h1>CalcX Suite</h1>
-        <span class="suite-badge">All-in-One</span>
+  <!-- App Layout Wrapper -->
+  <div class="app-layout">
+
+    <!-- ═══ ALWAYS-VISIBLE SIDEBAR ═══ -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main Navigation">
+      <div class="sidebar-brand">
+        <span class="brand-icon">🧮</span>
+        <div class="brand-text">
+          <h2>CalcX Pro</h2>
+          <span class="brand-sub">Suite</span>
+        </div>
       </div>
-      <div class="banner-actions">
-        <button id="toggle-mode-btn" class="icon-btn" title="Toggle Scientific Mode" aria-label="Toggle Scientific Mode">
-          <span class="mode-badge">SCI</span>
-        </button>
-        <button id="toggle-history-btn" class="icon-btn" title="History Log" aria-label="Toggle History Log">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </button>
-        <button id="toggle-theme-btn" class="icon-btn" title="Switch Light/Dark Theme" aria-label="Switch Theme">
-          <span class="theme-icon">🌙</span>
-        </button>
-      </div>
-    </div>
 
-    <!-- Quick Jump Pill Links -->
-    <nav class="quick-nav" aria-label="Quick Jump Menu">
-      <button class="quick-nav-btn" data-target="card-calc"><span class="nav-icon">🧮</span> Calculator</button>
-      <button class="quick-nav-btn" data-target="card-unit"><span class="nav-icon">📐</span> Unit</button>
-      <button class="quick-nav-btn" data-target="card-currency"><span class="nav-icon">🔱</span> Currency</button>
-      <button class="quick-nav-btn" data-target="card-bmi"><span class="nav-icon">⚖️</span> BMI</button>
-      <button class="quick-nav-btn" data-target="card-age"><span class="nav-icon">🎂</span> Age</button>
-      <button class="quick-nav-btn" data-target="card-date"><span class="nav-icon">📅</span> Date</button>
-      <button class="quick-nav-btn" data-target="card-loan"><span class="nav-icon">🏦</span> Loan</button>
-      <button class="quick-nav-btn" data-target="card-tip"><span class="nav-icon">🪙</span> Tip</button>
-      <button class="quick-nav-btn" data-target="card-discount"><span class="nav-icon">🏷️</span> Discount</button>
-    </nav>
-  </header>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">CALCULATORS</div>
+        <button class="nav-item active" data-view="calc">
+          <span class="nav-icon">🧮</span>
+          <span class="nav-label">Standard / Scientific</span>
+        </button>
+        <button class="nav-item" data-view="bmi">
+          <span class="nav-icon">⚖️</span>
+          <span class="nav-label">BMI Calculator</span>
+        </button>
+        <button class="nav-item" data-view="age">
+          <span class="nav-icon">🎂</span>
+          <span class="nav-label">Age Calculator</span>
+        </button>
+        <button class="nav-item" data-view="date">
+          <span class="nav-icon">📅</span>
+          <span class="nav-label">Date Difference</span>
+        </button>
+        <button class="nav-item" data-view="loan">
+          <span class="nav-icon">🏦</span>
+          <span class="nav-label">Loan / EMI</span>
+        </button>
+        <button class="nav-item" data-view="tip">
+          <span class="nav-icon">🪙</span>
+          <span class="nav-label">Tip Calculator</span>
+        </button>
+        <button class="nav-item" data-view="discount">
+          <span class="nav-icon">🏷️</span>
+          <span class="nav-label">Discount Calc.</span>
+        </button>
 
-  <!-- App Main Suite Grid Container -->
-  <div class="app-container">
-    <main class="dashboard-grid">
-
-      <!-- TOOL 1: Main Calculator (Standard & Scientific) -->
-      <section class="tool-card tool-card-wide" id="card-calc">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">🧮</span> Standard & Scientific Calculator
+        <div class="nav-section-label">CONVERTERS</div>
+        <div class="nav-group">
+          <button class="nav-item" data-view="unit">
+            <span class="nav-icon">📐</span>
+            <span class="nav-label">Unit Converter</span>
+          </button>
+          <div class="sub-nav-list">
+            <button class="sub-nav-item" data-view="unit" data-unit-cat="length">Length</button>
+            <button class="sub-nav-item" data-view="unit" data-unit-cat="weight">Weight</button>
+            <button class="sub-nav-item" data-view="unit" data-unit-cat="temperature">Temperature</button>
+            <button class="sub-nav-item" data-view="unit" data-unit-cat="speed">Speed</button>
+            <button class="sub-nav-item" data-view="unit" data-unit-cat="area">Area</button>
           </div>
         </div>
-        <div class="card-body">
+        <button class="nav-item" data-view="currency">
+          <span class="nav-icon">🔱</span>
+          <span class="nav-label">Currency Converter</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="toggle-theme-btn" class="sidebar-action-btn" title="Switch Theme">
+          <span class="theme-icon">🌙</span> Theme
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══ MAIN CONTENT AREA ═══ -->
+    <main class="main-content">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle-btn" class="icon-btn mobile-only" aria-label="Toggle Sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <h1 id="view-title" class="topbar-title">Standard & Scientific Calculator</h1>
+        </div>
+        <div class="topbar-actions">
+          <button id="toggle-mode-btn" class="icon-btn" title="Toggle Scientific Mode" aria-label="Toggle Scientific Mode">
+            <span class="mode-badge">SCI</span>
+          </button>
+          <button id="toggle-history-btn" class="icon-btn" title="History Log" aria-label="Toggle History Log">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Tool Content Panel -->
+      <div class="tool-panel">
+
+        <!-- TOOL 1: Main Calculator (Standard & Scientific) -->
+        <div class="tool-view active" id="view-calc">
           <section class="display-container">
             <div class="expression-line" id="expression-display" aria-live="polite"></div>
             <div class="result-line" id="result-display">0</div>
@@ -74,30 +124,24 @@
               <span class="deg-rad-indicator" id="angle-unit-toggle" title="Click to switch DEG/RAD">DEG</span>
             </div>
           </section>
-
           <section class="keypad-container">
-            <!-- Scientific Keypad Grid -->
             <div class="scientific-panel hidden" id="scientific-panel">
               <button class="btn btn-sci" data-action="sin">sin</button>
               <button class="btn btn-sci" data-action="cos">cos</button>
               <button class="btn btn-sci" data-action="tan">tan</button>
               <button class="btn btn-sci" data-action="log">log</button>
               <button class="btn btn-sci" data-action="ln">ln</button>
-
               <button class="btn btn-sci" data-action="sqrt">√</button>
               <button class="btn btn-sci" data-action="pow">x^y</button>
               <button class="btn btn-sci" data-action="sqr">x²</button>
               <button class="btn btn-sci" data-action="pi">π</button>
               <button class="btn btn-sci" data-action="e">e</button>
-
               <button class="btn btn-sci" data-action="fact">n!</button>
               <button class="btn btn-sci" data-action="inv">1/x</button>
               <button class="btn btn-sci" data-action="abs">|x|</button>
               <button class="btn btn-sci" data-action="open-paren">(</button>
               <button class="btn btn-sci" data-action="close-paren">)</button>
             </div>
-
-            <!-- Memory Grid -->
             <div class="memory-row">
               <button class="btn btn-mem" data-action="mc">MC</button>
               <button class="btn btn-mem" data-action="mr">MR</button>
@@ -105,29 +149,23 @@
               <button class="btn btn-mem" data-action="m-sub">M-</button>
               <button class="btn btn-mem" data-action="ms">MS</button>
             </div>
-
-            <!-- Standard Keypad Grid -->
             <div class="standard-grid">
               <button class="btn btn-accent" data-action="clear">AC</button>
               <button class="btn btn-secondary" data-action="backspace">⌫</button>
               <button class="btn btn-secondary" data-action="percent">%</button>
               <button class="btn btn-op" data-action="operator" data-val="/">÷</button>
-
               <button class="btn btn-num" data-val="7">7</button>
               <button class="btn btn-num" data-val="8">8</button>
               <button class="btn btn-num" data-val="9">9</button>
               <button class="btn btn-op" data-action="operator" data-val="*">×</button>
-
               <button class="btn btn-num" data-val="4">4</button>
               <button class="btn btn-num" data-val="5">5</button>
               <button class="btn btn-num" data-val="6">6</button>
               <button class="btn btn-op" data-action="operator" data-val="-">−</button>
-
               <button class="btn btn-num" data-val="1">1</button>
               <button class="btn btn-num" data-val="2">2</button>
               <button class="btn btn-num" data-val="3">3</button>
               <button class="btn btn-op" data-action="operator" data-val="+">+</button>
-
               <button class="btn btn-secondary" data-action="negate">±</button>
               <button class="btn btn-num" data-val="0">0</button>
               <button class="btn btn-num" data-val=".">.</button>
@@ -135,16 +173,9 @@
             </div>
           </section>
         </div>
-      </section>
 
-      <!-- TOOL 2: Unit Converter -->
-      <section class="tool-card" id="card-unit">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">📐</span> Unit Converter
-          </div>
-        </div>
-        <div class="card-body">
+        <!-- TOOL 2: Unit Converter -->
+        <div class="tool-view" id="view-unit">
           <div class="tool-form">
             <div class="form-group">
               <label for="unit-category">Category</label>
@@ -177,16 +208,9 @@
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- TOOL 3: Currency Converter -->
-      <section class="tool-card" id="card-currency">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">🔱</span> Currency Converter
-          </div>
-        </div>
-        <div class="card-body">
+        <!-- TOOL 3: Currency Converter -->
+        <div class="tool-view" id="view-currency">
           <div class="tool-form">
             <div class="form-group">
               <label for="curr-amount">Amount</label>
@@ -210,22 +234,14 @@
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- TOOL 4: BMI Calculator -->
-      <section class="tool-card" id="card-bmi">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">⚖️</span> BMI Calculator
-          </div>
-        </div>
-        <div class="card-body">
+        <!-- TOOL 4: BMI Calculator -->
+        <div class="tool-view" id="view-bmi">
           <div class="tool-form">
             <div class="unit-toggle-row">
               <button class="toggle-tab active" id="bmi-unit-metric">Metric (cm / kg)</button>
               <button class="toggle-tab" id="bmi-unit-imperial">Imperial (ft, in / lb)</button>
             </div>
-
             <div id="bmi-metric-inputs">
               <div class="form-group">
                 <label for="bmi-height-cm">Height (cm)</label>
@@ -236,7 +252,6 @@
                 <input type="number" id="bmi-weight-kg" value="70" class="custom-input" placeholder="e.g. 70">
               </div>
             </div>
-
             <div id="bmi-imperial-inputs" class="hidden">
               <div class="converter-row">
                 <div class="form-group">
@@ -253,25 +268,17 @@
                 <input type="number" id="bmi-weight-lb" value="154" class="custom-input">
               </div>
             </div>
-
             <div class="result-card">
               <div class="result-label">Your Body Mass Index</div>
               <div class="bmi-score" id="bmi-score">22.9</div>
               <div class="bmi-category-badge" id="bmi-category">Normal Weight</div>
-              <div class="sub-detail-text" id="bmi-healthy-range">Healthy Weight Range: 56.7 kg - 76.5 kg</div>
+              <div class="sub-detail-text" id="bmi-healthy-range">Healthy Weight Range: 56.7 kg – 76.5 kg</div>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- TOOL 5: Age Calculator -->
-      <section class="tool-card" id="card-age">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">🎂</span> Age Calculator
-          </div>
-        </div>
-        <div class="card-body">
+        <!-- TOOL 5: Age Calculator -->
+        <div class="tool-view" id="view-age">
           <div class="tool-form">
             <div class="form-group">
               <label for="age-dob">Date of Birth</label>
@@ -299,16 +306,9 @@
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- TOOL 6: Date Difference Calculator -->
-      <section class="tool-card" id="card-date">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">📅</span> Date Difference
-          </div>
-        </div>
-        <div class="card-body">
+        <!-- TOOL 6: Date Difference -->
+        <div class="tool-view" id="view-date">
           <div class="tool-form">
             <div class="form-group">
               <label for="date-start">Start Date</label>
@@ -321,44 +321,19 @@
             <div class="result-card multi-result-card">
               <div class="primary-highlight" id="date-primary">0 Days Difference</div>
               <div class="metrics-grid col-3">
-                <div class="metric-item">
-                  <span class="m-val" id="date-years">0</span>
-                  <span class="m-lbl">Years</span>
-                </div>
-                <div class="metric-item">
-                  <span class="m-val" id="date-months">0</span>
-                  <span class="m-lbl">Months</span>
-                </div>
-                <div class="metric-item">
-                  <span class="m-val" id="date-weeks">0</span>
-                  <span class="m-lbl">Weeks</span>
-                </div>
-                <div class="metric-item">
-                  <span class="m-val" id="date-days">0</span>
-                  <span class="m-lbl">Days</span>
-                </div>
-                <div class="metric-item">
-                  <span class="m-val" id="date-hours">0</span>
-                  <span class="m-lbl">Hours</span>
-                </div>
-                <div class="metric-item">
-                  <span class="m-val" id="date-mins">0</span>
-                  <span class="m-lbl">Minutes</span>
-                </div>
+                <div class="metric-item"><span class="m-val" id="date-years">0</span><span class="m-lbl">Years</span></div>
+                <div class="metric-item"><span class="m-val" id="date-months">0</span><span class="m-lbl">Months</span></div>
+                <div class="metric-item"><span class="m-val" id="date-weeks">0</span><span class="m-lbl">Weeks</span></div>
+                <div class="metric-item"><span class="m-val" id="date-days">0</span><span class="m-lbl">Days</span></div>
+                <div class="metric-item"><span class="m-val" id="date-hours">0</span><span class="m-lbl">Hours</span></div>
+                <div class="metric-item"><span class="m-val" id="date-mins">0</span><span class="m-lbl">Minutes</span></div>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- TOOL 7: Loan / EMI Calculator -->
-      <section class="tool-card" id="card-loan">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">🏦</span> Loan / EMI Calculator
-          </div>
-        </div>
-        <div class="card-body">
+        <!-- TOOL 7: Loan / EMI Calculator -->
+        <div class="tool-view" id="view-loan">
           <div class="tool-form">
             <div class="form-group">
               <label for="loan-amount">Loan Amount ($)</label>
@@ -373,32 +348,16 @@
               <input type="number" id="loan-tenure" value="3" class="custom-input">
             </div>
             <div class="result-card summary-card">
-              <div class="summary-row">
-                <span>Monthly EMI:</span>
-                <strong id="loan-emi">$309.95</strong>
-              </div>
+              <div class="summary-row"><span>Monthly EMI:</span><strong id="loan-emi">$309.95</strong></div>
               <div class="summary-divider"></div>
-              <div class="summary-row sub">
-                <span>Total Interest Payable:</span>
-                <span id="loan-interest">$1,158.20</span>
-              </div>
-              <div class="summary-row sub">
-                <span>Total Amount (Principal + Int):</span>
-                <span id="loan-total">$11,158.20</span>
-              </div>
+              <div class="summary-row sub"><span>Total Interest Payable:</span><span id="loan-interest">$1,158.20</span></div>
+              <div class="summary-row sub"><span>Total Amount (Principal + Int):</span><span id="loan-total">$11,158.20</span></div>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- TOOL 8: Tip Calculator -->
-      <section class="tool-card" id="card-tip">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">🪙</span> Tip Calculator
-          </div>
-        </div>
-        <div class="card-body">
+        <!-- TOOL 8: Tip Calculator -->
+        <div class="tool-view" id="view-tip">
           <div class="tool-form">
             <div class="form-group">
               <label for="tip-bill">Bill Amount ($)</label>
@@ -413,32 +372,16 @@
               <input type="number" id="tip-people" value="2" min="1" class="custom-input">
             </div>
             <div class="result-card summary-card">
-              <div class="summary-row">
-                <span>Cost Per Person:</span>
-                <strong id="tip-per-person">$28.75</strong>
-              </div>
+              <div class="summary-row"><span>Cost Per Person:</span><strong id="tip-per-person">$28.75</strong></div>
               <div class="summary-divider"></div>
-              <div class="summary-row sub">
-                <span>Total Tip Amount:</span>
-                <span id="tip-total-amount">$7.50</span>
-              </div>
-              <div class="summary-row sub">
-                <span>Grand Total Bill:</span>
-                <span id="tip-total-bill">$57.50</span>
-              </div>
+              <div class="summary-row sub"><span>Total Tip Amount:</span><span id="tip-total-amount">$7.50</span></div>
+              <div class="summary-row sub"><span>Grand Total Bill:</span><span id="tip-total-bill">$57.50</span></div>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- TOOL 9: Discount Calculator -->
-      <section class="tool-card" id="card-discount">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">🏷️</span> Discount Calculator
-          </div>
-        </div>
-        <div class="card-body">
+        <!-- TOOL 9: Discount Calculator -->
+        <div class="tool-view" id="view-discount">
           <div class="tool-form">
             <div class="form-group">
               <label for="disc-price">Original Price ($)</label>
@@ -449,41 +392,32 @@
               <input type="number" id="disc-percent" value="20" class="custom-input">
             </div>
             <div class="result-card summary-card">
-              <div class="summary-row">
-                <span>Final Discounted Price:</span>
-                <strong id="disc-final">$96.00</strong>
-              </div>
+              <div class="summary-row"><span>Final Discounted Price:</span><strong id="disc-final">$96.00</strong></div>
               <div class="summary-divider"></div>
-              <div class="summary-row sub">
-                <span>Total Savings:</span>
-                <span id="disc-saved">$24.00</span>
-              </div>
+              <div class="summary-row sub"><span>Total Savings:</span><span id="disc-saved">$24.00</span></div>
             </div>
           </div>
         </div>
-      </section>
 
-    </main>
+      </div><!-- /tool-panel -->
 
-    <!-- Bottom Footer Note -->
-    <footer class="app-footer">
-      <p>CalcX Pro Suite • All tools active and ready to use</p>
-    </footer>
-
-    <!-- History Drawer Overlay -->
-    <aside class="history-drawer hidden" id="history-drawer" aria-label="Calculation History">
-      <div class="history-header">
-        <h3>Calculation History</h3>
-        <div class="history-actions">
-          <button id="clear-history-btn" class="text-btn">Clear</button>
-          <button id="close-history-btn" class="icon-btn">✕</button>
+      <!-- History Drawer (fixed overlay) -->
+      <aside class="history-drawer hidden" id="history-drawer" aria-label="Calculation History">
+        <div class="history-header">
+          <h3>Calculation History</h3>
+          <div class="history-actions">
+            <button id="clear-history-btn" class="text-btn">Clear</button>
+            <button id="close-history-btn" class="icon-btn">✕</button>
+          </div>
         </div>
-      </div>
-      <div class="history-list" id="history-list">
-        <div class="empty-history">No history recorded yet</div>
-      </div>
-    </aside>
-  </div>
+        <div class="history-list" id="history-list">
+          <div class="empty-history">No history recorded yet</div>
+        </div>
+      </aside>
+
+    </main><!-- /main-content -->
+
+  </div><!-- /app-layout -->
 
   <script src="script.js"></script>
 </body>
