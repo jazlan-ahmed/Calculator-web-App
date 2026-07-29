@@ -3,24 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CalcX Pro - Smart Calculator & Converters</title>
-  <meta name="description" content="A feature-rich, beautiful, responsive single-page web app with calculator, unit converters, currency live exchange rates, BMI, Age, EMI, and discount tools.">
+  <title>CalcX Pro - All-in-One Multi-Calculator & Converter Suite</title>
+  <meta name="description" content="A modern, single-page multi-calculator SaaS web app featuring scientific calculation, unit converters, live currency rates, BMI, Age, Date Difference, Loan EMI, Tip, and Discount tools.">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body data-theme="dark">
+  <!-- Minimal Animated Background Textures -->
   <div class="bg-texture-grid"></div>
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
 
-  <!-- Sidebar Overlay & Navigation Drawer -->
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Sidebar Overlay & Mobile Drawer Navigation -->
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
-  <aside class="sidebar" id="sidebar">
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main Navigation">
     <div class="sidebar-header">
       <div class="brand">
-        <span class="icon">🧮</span>
+        <span class="icon" aria-hidden="true">🧮</span>
         <h2>CalcX Suite</h2>
       </div>
       <button id="close-sidebar-btn" class="icon-btn" aria-label="Close Sidebar">✕</button>
@@ -59,32 +63,33 @@
     </nav>
   </aside>
 
+  <!-- App Wrapper Container -->
   <div class="app-container">
-    <!-- Top Welcome Banner -->
-    <div class="welcome-banner">
+    <!-- Top Welcome Banner Header -->
+    <header class="welcome-banner">
       <div class="header-left">
-        <button id="open-sidebar-btn" class="icon-btn" title="Open Menu" aria-label="Open Menu">
+        <button id="open-sidebar-btn" class="icon-btn" title="Open Menu" aria-label="Open Navigation Sidebar">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
-        <h2 id="view-title">Welcome to CalcX!</h2>
+        <h1 id="view-title">Welcome to CalcX!</h1>
       </div>
       <div class="banner-actions">
         <button id="toggle-mode-btn" class="icon-btn" title="Toggle Scientific Mode" aria-label="Toggle Scientific Mode">
           <span class="mode-badge">SCI</span>
         </button>
-        <button id="toggle-history-btn" class="icon-btn" title="History Log" aria-label="Toggle History">
+        <button id="toggle-history-btn" class="icon-btn" title="History Log" aria-label="Toggle History Log">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
-        <button id="toggle-theme-btn" class="icon-btn" title="Switch Theme" aria-label="Switch Theme">
+        <button id="toggle-theme-btn" class="icon-btn" title="Switch Light/Dark Theme" aria-label="Switch Theme">
           <span class="theme-icon">🌙</span>
         </button>
       </div>
-    </div>
+    </header>
 
-    <!-- Main Dynamic Tool View Card -->
+    <!-- Main SaaS Card View -->
     <main class="calculator-card">
 
-      <!-- View 1: Main Calculator -->
+      <!-- TOOL 1: Main Calculator (Standard & Scientific) -->
       <div class="tool-view active" id="view-calc">
         <section class="display-container">
           <div class="expression-line" id="expression-display" aria-live="polite"></div>
@@ -96,6 +101,7 @@
         </section>
 
         <section class="keypad-container">
+          <!-- Scientific Keypad Grid -->
           <div class="scientific-panel hidden" id="scientific-panel">
             <button class="btn btn-sci" data-action="sin">sin</button>
             <button class="btn btn-sci" data-action="cos">cos</button>
@@ -116,6 +122,7 @@
             <button class="btn btn-sci" data-action="close-paren">)</button>
           </div>
 
+          <!-- Memory Grid -->
           <div class="memory-row">
             <button class="btn btn-mem" data-action="mc">MC</button>
             <button class="btn btn-mem" data-action="mr">MR</button>
@@ -124,6 +131,7 @@
             <button class="btn btn-mem" data-action="ms">MS</button>
           </div>
 
+          <!-- Standard Keypad Grid -->
           <div class="standard-grid">
             <button class="btn btn-accent" data-action="clear">AC</button>
             <button class="btn btn-secondary" data-action="backspace">⌫</button>
@@ -153,11 +161,11 @@
         </section>
       </div>
 
-      <!-- View 2: Unit Converter -->
+      <!-- TOOL 2: Unit Converter (Length, Weight, Temp, Speed, Area) -->
       <div class="tool-view" id="view-unit">
         <div class="tool-form">
           <div class="form-group">
-            <label>Category</label>
+            <label for="unit-category">Category</label>
             <select id="unit-category" class="custom-select">
               <option value="length">Length</option>
               <option value="weight">Weight</option>
@@ -167,151 +175,258 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Value</label>
+            <label for="unit-val">Enter Value</label>
             <input type="number" id="unit-val" value="1" class="custom-input" placeholder="Enter value">
           </div>
           <div class="converter-row">
             <div class="form-group">
-              <label>From</label>
+              <label for="unit-from">From</label>
               <select id="unit-from" class="custom-select"></select>
             </div>
-            <button id="unit-swap-btn" class="icon-btn swap-btn" title="Swap Units">⇄</button>
+            <button id="unit-swap-btn" class="icon-btn swap-btn" title="Swap Units" aria-label="Swap Units">⇄</button>
             <div class="form-group">
-              <label>To</label>
+              <label for="unit-to">To</label>
               <select id="unit-to" class="custom-select"></select>
             </div>
           </div>
-          <div class="result-box" id="unit-result">0</div>
+          <div class="result-card">
+            <div class="result-label">Converted Value</div>
+            <div class="result-value" id="unit-result">0</div>
+          </div>
         </div>
       </div>
 
-      <!-- View 3: Currency Converter -->
+      <!-- TOOL 3: Currency Converter (Live API) -->
       <div class="tool-view" id="view-currency">
         <div class="tool-form">
           <div class="form-group">
-            <label>Amount</label>
+            <label for="curr-amount">Amount</label>
             <input type="number" id="curr-amount" value="100" class="custom-input" placeholder="Amount">
           </div>
           <div class="converter-row">
             <div class="form-group">
-              <label>From Currency</label>
+              <label for="curr-from">From Currency</label>
               <select id="curr-from" class="custom-select"></select>
             </div>
-            <button id="curr-swap-btn" class="icon-btn swap-btn" title="Swap Currencies">⇄</button>
+            <button id="curr-swap-btn" class="icon-btn swap-btn" title="Swap Currencies" aria-label="Swap Currencies">⇄</button>
             <div class="form-group">
-              <label>To Currency</label>
+              <label for="curr-to">To Currency</label>
               <select id="curr-to" class="custom-select"></select>
             </div>
           </div>
-          <div class="result-box" id="curr-result">Loading Exchange Rates...</div>
-          <div class="rate-status" id="curr-status">Rates updated via Open Exchange</div>
+          <div class="result-card">
+            <div class="result-label">Converted Amount</div>
+            <div class="result-value" id="curr-result">Loading rates...</div>
+            <div class="rate-status" id="curr-status">Connecting to ExchangeRate API...</div>
+          </div>
         </div>
       </div>
 
-      <!-- View 4: BMI Calculator -->
+      <!-- TOOL 4: BMI Calculator -->
       <div class="tool-view" id="view-bmi">
         <div class="tool-form">
-          <div class="form-group">
-            <label>Height (cm)</label>
-            <input type="number" id="bmi-height" value="175" class="custom-input" placeholder="e.g. 175">
+          <div class="unit-toggle-row">
+            <button class="toggle-tab active" id="bmi-unit-metric">Metric (cm / kg)</button>
+            <button class="toggle-tab" id="bmi-unit-imperial">Imperial (ft, in / lb)</button>
           </div>
-          <div class="form-group">
-            <label>Weight (kg)</label>
-            <input type="number" id="bmi-weight" value="70" class="custom-input" placeholder="e.g. 70">
+
+          <div id="bmi-metric-inputs">
+            <div class="form-group">
+              <label for="bmi-height-cm">Height (cm)</label>
+              <input type="number" id="bmi-height-cm" value="175" class="custom-input" placeholder="e.g. 175">
+            </div>
+            <div class="form-group">
+              <label for="bmi-weight-kg">Weight (kg)</label>
+              <input type="number" id="bmi-weight-kg" value="70" class="custom-input" placeholder="e.g. 70">
+            </div>
           </div>
-          <div class="result-box" id="bmi-result">
+
+          <div id="bmi-imperial-inputs" class="hidden">
+            <div class="converter-row">
+              <div class="form-group">
+                <label for="bmi-height-ft">Height (ft)</label>
+                <input type="number" id="bmi-height-ft" value="5" class="custom-input">
+              </div>
+              <div class="form-group">
+                <label for="bmi-height-in">Height (in)</label>
+                <input type="number" id="bmi-height-in" value="9" class="custom-input">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="bmi-weight-lb">Weight (lb)</label>
+              <input type="number" id="bmi-weight-lb" value="154" class="custom-input">
+            </div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-label">Your Body Mass Index</div>
             <div class="bmi-score" id="bmi-score">22.9</div>
-            <div class="bmi-category" id="bmi-category">Normal Weight</div>
+            <div class="bmi-category-badge" id="bmi-category">Normal Weight</div>
+            <div class="sub-detail-text" id="bmi-healthy-range">Healthy Weight Range: 56.7 kg - 76.5 kg</div>
           </div>
         </div>
       </div>
 
-      <!-- View 5: Age Calculator -->
+      <!-- TOOL 5: Age Calculator (Detailed metrics & Next Birthday) -->
       <div class="tool-view" id="view-age">
         <div class="tool-form">
           <div class="form-group">
-            <label>Date of Birth</label>
+            <label for="age-dob">Date of Birth</label>
             <input type="date" id="age-dob" class="custom-input">
           </div>
-          <div class="result-box" id="age-result">Select your birth date</div>
+          <div class="result-card multi-result-card">
+            <div class="primary-highlight" id="age-primary">-- Years, -- Months, -- Days</div>
+            <div class="metrics-grid">
+              <div class="metric-item">
+                <span class="m-val" id="age-months">--</span>
+                <span class="m-lbl">Total Months</span>
+              </div>
+              <div class="metric-item">
+                <span class="m-val" id="age-weeks">--</span>
+                <span class="m-lbl">Total Weeks</span>
+              </div>
+              <div class="metric-item">
+                <span class="m-val" id="age-days">--</span>
+                <span class="m-lbl">Total Days</span>
+              </div>
+            </div>
+            <div class="birthday-card" id="age-next-bday">
+              🎉 Next Birthday: <span>-- Months, -- Days</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- View 6: Date Difference Calculator -->
+      <!-- TOOL 6: Date Difference Calculator (Detailed Breakdown) -->
       <div class="tool-view" id="view-date">
         <div class="tool-form">
           <div class="form-group">
-            <label>Start Date</label>
+            <label for="date-start">Start Date</label>
             <input type="date" id="date-start" class="custom-input">
           </div>
           <div class="form-group">
-            <label>End Date</label>
+            <label for="date-end">End Date</label>
             <input type="date" id="date-end" class="custom-input">
           </div>
-          <div class="result-box" id="date-result">Select two dates</div>
+          <div class="result-card multi-result-card">
+            <div class="primary-highlight" id="date-primary">0 Days Difference</div>
+            <div class="metrics-grid col-3">
+              <div class="metric-item">
+                <span class="m-val" id="date-years">0</span>
+                <span class="m-lbl">Years</span>
+              </div>
+              <div class="metric-item">
+                <span class="m-val" id="date-months">0</span>
+                <span class="m-lbl">Months</span>
+              </div>
+              <div class="metric-item">
+                <span class="m-val" id="date-weeks">0</span>
+                <span class="m-lbl">Weeks</span>
+              </div>
+              <div class="metric-item">
+                <span class="m-val" id="date-days">0</span>
+                <span class="m-lbl">Days</span>
+              </div>
+              <div class="metric-item">
+                <span class="m-val" id="date-hours">0</span>
+                <span class="m-lbl">Hours</span>
+              </div>
+              <div class="metric-item">
+                <span class="m-val" id="date-mins">0</span>
+                <span class="m-lbl">Minutes</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- View 7: Loan / EMI Calculator -->
+      <!-- TOOL 7: Loan / EMI Calculator -->
       <div class="tool-view" id="view-loan">
         <div class="tool-form">
           <div class="form-group">
-            <label>Loan Amount ($)</label>
+            <label for="loan-amount">Loan Amount ($)</label>
             <input type="number" id="loan-amount" value="10000" class="custom-input">
           </div>
           <div class="form-group">
-            <label>Annual Interest Rate (%)</label>
+            <label for="loan-rate">Annual Interest Rate (%)</label>
             <input type="number" id="loan-rate" value="7.5" step="0.1" class="custom-input">
           </div>
           <div class="form-group">
-            <label>Loan Tenure (Years)</label>
+            <label for="loan-tenure">Loan Tenure (Years)</label>
             <input type="number" id="loan-tenure" value="3" class="custom-input">
           </div>
-          <div class="result-box loan-result-box" id="loan-result">
-            <div>Monthly EMI: <strong id="loan-emi">$309.95</strong></div>
-            <div class="sub-detail">Total Interest: <span id="loan-interest">$1,158.20</span></div>
-            <div class="sub-detail">Total Payment: <span id="loan-total">$11,158.20</span></div>
+          <div class="result-card summary-card">
+            <div class="summary-row">
+              <span>Monthly EMI:</span>
+              <strong id="loan-emi">$309.95</strong>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row sub">
+              <span>Total Interest Payable:</span>
+              <span id="loan-interest">$1,158.20</span>
+            </div>
+            <div class="summary-row sub">
+              <span>Total Amount (Principal + Int):</span>
+              <span id="loan-total">$11,158.20</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- View 8: Tip Calculator -->
+      <!-- TOOL 8: Tip Calculator -->
       <div class="tool-view" id="view-tip">
         <div class="tool-form">
           <div class="form-group">
-            <label>Bill Amount ($)</label>
+            <label for="tip-bill">Bill Amount ($)</label>
             <input type="number" id="tip-bill" value="50" class="custom-input">
           </div>
           <div class="form-group">
-            <label>Tip Percentage (%)</label>
+            <label for="tip-percent">Tip Percentage (%)</label>
             <input type="number" id="tip-percent" value="15" class="custom-input">
           </div>
           <div class="form-group">
-            <label>Split Among (People)</label>
+            <label for="tip-people">Number of People</label>
             <input type="number" id="tip-people" value="2" min="1" class="custom-input">
           </div>
-          <div class="result-box loan-result-box" id="tip-result">
-            <div>Per Person: <strong id="tip-per-person">$28.75</strong></div>
-            <div class="sub-detail">Total Tip: <span id="tip-total-amount">$7.50</span></div>
-            <div class="sub-detail">Total Bill: <span id="tip-total-bill">$57.50</span></div>
+          <div class="result-card summary-card">
+            <div class="summary-row">
+              <span>Cost Per Person:</span>
+              <strong id="tip-per-person">$28.75</strong>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row sub">
+              <span>Total Tip Amount:</span>
+              <span id="tip-total-amount">$7.50</span>
+            </div>
+            <div class="summary-row sub">
+              <span>Grand Total Bill:</span>
+              <span id="tip-total-bill">$57.50</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- View 9: Discount Calculator -->
+      <!-- TOOL 9: Discount Calculator -->
       <div class="tool-view" id="view-discount">
         <div class="tool-form">
           <div class="form-group">
-            <label>Original Price ($)</label>
+            <label for="disc-price">Original Price ($)</label>
             <input type="number" id="disc-price" value="120" class="custom-input">
           </div>
           <div class="form-group">
-            <label>Discount (%)</label>
+            <label for="disc-percent">Discount Percentage (%)</label>
             <input type="number" id="disc-percent" value="20" class="custom-input">
           </div>
-          <div class="result-box loan-result-box" id="disc-result">
-            <div>Final Price: <strong id="disc-final">$96.00</strong></div>
-            <div class="sub-detail">You Save: <span id="disc-saved">$24.00</span></div>
+          <div class="result-card summary-card">
+            <div class="summary-row">
+              <span>Final Discounted Price:</span>
+              <strong id="disc-final">$96.00</strong>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row sub">
+              <span>Total Savings:</span>
+              <span id="disc-saved">$24.00</span>
+            </div>
           </div>
         </div>
       </div>
@@ -324,7 +439,7 @@
     </footer>
 
     <!-- History Drawer Overlay -->
-    <aside class="history-drawer hidden" id="history-drawer">
+    <aside class="history-drawer hidden" id="history-drawer" aria-label="Calculation History">
       <div class="history-header">
         <h3>Calculation History</h3>
         <div class="history-actions">

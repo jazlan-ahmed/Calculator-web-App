@@ -1,4 +1,25 @@
-// Calculator & Multi-Tool Suite Engine
+// ==========================================
+// CalcX Pro - SaaS Multi-Calculator Engine
+// ==========================================
+
+// --- Toast Notification Engine ---
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span>${message}</span>`;
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(-20px)';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+// --- Main Standard & Scientific Calculator Engine ---
 class Calculator {
   constructor() {
     this.expression = '';
@@ -144,20 +165,22 @@ class Calculator {
         this.isEvaluated = true;
       } else {
         this.currentInput = 'Error';
+        showToast('Invalid Math Operation', 'error');
       }
     } catch (e) {
       this.currentInput = 'Error';
+      showToast('Syntax Error in Expression', 'error');
     }
   }
 
-  memoryClear() { this.memory = 0; }
-  memoryRead() { this.currentInput = this.memory.toString(); this.isEvaluated = true; }
-  memoryAdd() { this.memory += parseFloat(this.currentInput || 0); }
-  memorySub() { this.memory -= parseFloat(this.currentInput || 0); }
-  memorySet() { this.memory = parseFloat(this.currentInput || 0); }
+  memoryClear() { this.memory = 0; showToast('Memory Cleared'); }
+  memoryRead() { this.currentInput = this.memory.toString(); this.isEvaluated = true; showToast(`Recalled ${this.memory}`); }
+  memoryAdd() { this.memory += parseFloat(this.currentInput || 0); showToast(`Added to Memory (${this.memory})`); }
+  memorySub() { this.memory -= parseFloat(this.currentInput || 0); showToast(`Subtracted from Memory (${this.memory})`); }
+  memorySet() { this.memory = parseFloat(this.currentInput || 0); showToast(`Stored in Memory (${this.memory})`); }
 }
 
-// Unit Converter Data & Logic
+// Unit Converter Data Engine
 const UNIT_DATA = {
   length: {
     units: { m: 1, km: 1000, cm: 0.01, mm: 0.001, mi: 1609.344, yd: 0.9144, ft: 0.3048, in: 0.0254 },
@@ -181,11 +204,11 @@ const UNIT_DATA = {
   }
 };
 
-// Application Controller
+// Main DOM Controller
 document.addEventListener('DOMContentLoaded', () => {
   const calc = new Calculator();
 
-  // Elements
+  // Navigation & UI Elements
   const sidebar = document.getElementById('sidebar');
   const sidebarOverlay = document.getElementById('sidebar-overlay');
   const openSidebarBtn = document.getElementById('open-sidebar-btn');
@@ -202,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggleBtn = document.getElementById('toggle-theme-btn');
   const modeToggleBtn = document.getElementById('toggle-mode-btn');
 
-  // Sidebar navigation handlers
+  // Sidebar Controls
   function openSidebar() {
     sidebar.classList.add('active');
     sidebarOverlay.classList.add('active');
@@ -217,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
   closeSidebarBtn.addEventListener('click', closeSidebar);
   sidebarOverlay.addEventListener('click', closeSidebar);
 
-  // Tab / View Switching
+  // Tab Switching & LocalStorage Memory
   const navItems = document.querySelectorAll('.nav-item');
   const toolViews = document.querySelectorAll('.tool-view');
 
@@ -233,18 +256,20 @@ document.addEventListener('DOMContentLoaded', () => {
     discount: 'Discount Calculator'
   };
 
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const targetView = item.getAttribute('data-view');
+  function switchView(targetView) {
+    navItems.forEach(n => n.classList.remove('active'));
+    toolViews.forEach(v => v.classList.remove('active'));
 
-      navItems.forEach(n => n.classList.remove('active'));
-      toolViews.forEach(v => v.classList.remove('active'));
+    const activeNavItem = document.querySelector(`.nav-item[data-view="${targetView}"]`);
+    const activeViewEl = document.getElementById(`view-${targetView}`);
 
-      item.classList.add('active');
-      document.getElementById(`view-${targetView}`).classList.add('active');
+    if (activeNavItem && activeViewEl) {
+      activeNavItem.classList.add('active');
+      activeViewEl.classList.add('active');
       viewTitle.textContent = titleMap[targetView] || 'CalcX Pro';
 
-      // Hide or show scientific mode badge based on calculator view
+      localStorage.setItem('calc_last_tool', targetView);
+
       if (targetView === 'calc') {
         modeToggleBtn.classList.remove('hidden');
         document.getElementById('toggle-history-btn').classList.remove('hidden');
@@ -252,12 +277,22 @@ document.addEventListener('DOMContentLoaded', () => {
         modeToggleBtn.classList.add('hidden');
         document.getElementById('toggle-history-btn').classList.add('hidden');
       }
+    }
+  }
 
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const targetView = item.getAttribute('data-view');
+      switchView(targetView);
       closeSidebar();
     });
   });
 
-  // Calculator Functions
+  // Restore Last Selected Tool
+  const savedTool = localStorage.getItem('calc_last_tool') || 'calc';
+  switchView(savedTool);
+
+  // --- Calculator UI Handlers ---
   function updateCalcDisplay() {
     exprDisplay.textContent = calc.expression;
     resultDisplay.textContent = calc.currentInput || '0';
@@ -331,6 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calc.history = [];
     localStorage.removeItem('calc_history');
     renderHistory();
+    showToast('Calculation History Cleared');
   });
 
   themeToggleBtn.addEventListener('click', () => {
@@ -338,11 +374,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     document.body.setAttribute('data-theme', newTheme);
     themeToggleBtn.querySelector('.theme-icon').textContent = newTheme === 'dark' ? '🌙' : '☀️';
+    showToast(`Switched to ${newTheme.toUpperCase()} theme`);
   });
 
   angleToggleBtn.addEventListener('click', () => {
     calc.isAngleDeg = !calc.isAngleDeg;
     angleToggleBtn.textContent = calc.isAngleDeg ? 'DEG' : 'RAD';
+    showToast(`Angle unit: ${calc.isAngleDeg ? 'Degrees' : 'Radians'}`);
   });
 
   window.addEventListener('keydown', (e) => {
@@ -434,10 +472,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
       if (data && data.rates) {
         exchangeRates = data.rates;
-        currStatus.textContent = `Live Exchange Rates (Updated: ${new Date(data.time_last_update_utc).toLocaleDateString()})`;
+        currStatus.textContent = `1 USD = ${data.rates['EUR']} EUR | Updated UTC`;
+        showToast('Live Exchange Rates Loaded', 'success');
       }
     } catch (e) {
       currStatus.textContent = 'Using cached offline exchange rates';
+      showToast('Offline exchange rates loaded', 'info');
     }
     populateCurrencyDropdowns();
   }
@@ -473,30 +513,79 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchRates();
 
   // --- 3. BMI Calculator Implementation ---
-  const bmiHeight = document.getElementById('bmi-height');
-  const bmiWeight = document.getElementById('bmi-weight');
+  const bmiUnitMetric = document.getElementById('bmi-unit-metric');
+  const bmiUnitImperial = document.getElementById('bmi-unit-imperial');
+  const bmiMetricInputs = document.getElementById('bmi-metric-inputs');
+  const bmiImperialInputs = document.getElementById('bmi-imperial-inputs');
+
+  const bmiHeightCm = document.getElementById('bmi-height-cm');
+  const bmiWeightKg = document.getElementById('bmi-weight-kg');
+  const bmiHeightFt = document.getElementById('bmi-height-ft');
+  const bmiHeightIn = document.getElementById('bmi-height-in');
+  const bmiWeightLb = document.getElementById('bmi-weight-lb');
+
   const bmiScore = document.getElementById('bmi-score');
   const bmiCategory = document.getElementById('bmi-category');
+  const bmiHealthyRange = document.getElementById('bmi-healthy-range');
+
+  let isMetric = true;
+
+  bmiUnitMetric.addEventListener('click', () => {
+    isMetric = true;
+    bmiUnitMetric.classList.add('active');
+    bmiUnitImperial.classList.remove('active');
+    bmiMetricInputs.classList.remove('hidden');
+    bmiImperialInputs.classList.add('hidden');
+    calculateBMI();
+  });
+
+  bmiUnitImperial.addEventListener('click', () => {
+    isMetric = false;
+    bmiUnitImperial.classList.add('active');
+    bmiUnitMetric.classList.remove('active');
+    bmiImperialInputs.classList.remove('hidden');
+    bmiMetricInputs.classList.add('hidden');
+    calculateBMI();
+  });
 
   function calculateBMI() {
-    const h = parseFloat(bmiHeight.value) / 100;
-    const w = parseFloat(bmiWeight.value);
+    let hMeters = 0;
+    let wKg = 0;
 
-    if (h > 0 && w > 0) {
-      const bmi = w / (h * h);
+    if (isMetric) {
+      hMeters = (parseFloat(bmiHeightCm.value) || 0) / 100;
+      wKg = parseFloat(bmiWeightKg.value) || 0;
+    } else {
+      const ft = parseFloat(bmiHeightFt.value) || 0;
+      const inch = parseFloat(bmiHeightIn.value) || 0;
+      const totalInches = (ft * 12) + inch;
+      hMeters = totalInches * 0.0254;
+      wKg = (parseFloat(bmiWeightLb.value) || 0) * 0.453592;
+    }
+
+    if (hMeters > 0 && wKg > 0) {
+      const bmi = wKg / (hMeters * hMeters);
       bmiScore.textContent = bmi.toFixed(1);
+
+      const minHealthyKg = (18.5 * (hMeters * hMeters)).toFixed(1);
+      const maxHealthyKg = (24.9 * (hMeters * hMeters)).toFixed(1);
+      bmiHealthyRange.textContent = `Healthy Weight Range: ${minHealthyKg} kg - ${maxHealthyKg} kg`;
 
       if (bmi < 18.5) {
         bmiCategory.textContent = 'Underweight';
+        bmiCategory.style.background = 'rgba(56, 189, 248, 0.2)';
         bmiCategory.style.color = '#38bdf8';
       } else if (bmi < 25) {
         bmiCategory.textContent = 'Normal Weight';
+        bmiCategory.style.background = 'rgba(52, 211, 153, 0.2)';
         bmiCategory.style.color = '#34d399';
       } else if (bmi < 30) {
         bmiCategory.textContent = 'Overweight';
+        bmiCategory.style.background = 'rgba(251, 191, 36, 0.2)';
         bmiCategory.style.color = '#fbbf24';
       } else {
-        bmiCategory.textContent = 'Obesity';
+        bmiCategory.textContent = 'Obese';
+        bmiCategory.style.background = 'rgba(248, 113, 113, 0.2)';
         bmiCategory.style.color = '#f87171';
       }
     } else {
@@ -504,24 +593,31 @@ document.addEventListener('DOMContentLoaded', () => {
       bmiCategory.textContent = 'Invalid Input';
     }
   }
-  bmiHeight.addEventListener('input', calculateBMI);
-  bmiWeight.addEventListener('input', calculateBMI);
+
+  [bmiHeightCm, bmiWeightKg, bmiHeightFt, bmiHeightIn, bmiWeightLb].forEach(input => {
+    input.addEventListener('input', calculateBMI);
+  });
   calculateBMI();
 
-  // --- 4. Age Calculator Implementation ---
+  // --- 4. Age Calculator Implementation (Complete Countdown & Breakdown) ---
   const ageDob = document.getElementById('age-dob');
-  const ageResult = document.getElementById('age-result');
+  const agePrimary = document.getElementById('age-primary');
+  const ageMonths = document.getElementById('age-months');
+  const ageWeeks = document.getElementById('age-weeks');
+  const ageDays = document.getElementById('age-days');
+  const ageNextBday = document.getElementById('age-next-bday');
 
-  // Default to 2000-01-01
   ageDob.value = '2000-01-01';
 
   function calculateAge() {
     if (!ageDob.value) return;
-    const birth = new Date(ageDob.value);
+    const birth = new Date(ageDob.value + 'T00:00:00');
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     if (birth > today) {
-      ageResult.textContent = 'Date of birth cannot be in the future!';
+      agePrimary.textContent = 'DOB cannot be in future';
+      showToast('Date of birth cannot be in the future', 'error');
       return;
     }
 
@@ -539,15 +635,44 @@ document.addEventListener('DOMContentLoaded', () => {
       months += 12;
     }
 
-    ageResult.textContent = `${years} Years, ${months} Months, ${days} Days`;
+    agePrimary.textContent = `${years} Years, ${months} Months, ${days} Days`;
+
+    // Totals
+    const totalTime = today - birth;
+    const totalDays = Math.floor(totalTime / (1000 * 60 * 60 * 24));
+    const totalWeeks = Math.floor(totalDays / 7);
+    const totalMonths = (years * 12) + months;
+
+    ageMonths.textContent = totalMonths.toLocaleString();
+    ageWeeks.textContent = totalWeeks.toLocaleString();
+    ageDays.textContent = totalDays.toLocaleString();
+
+    // Next Birthday Countdown
+    let nextBday = new Date(today.getFullYear(), birth.getMonth(), birth.getDate());
+    if (nextBday < today) {
+      nextBday.setFullYear(today.getFullYear() + 1);
+    }
+    const bdayDiffTime = nextBday - today;
+    const bdayDiffDays = Math.ceil(bdayDiffTime / (1000 * 60 * 60 * 24));
+    const bdayMonths = Math.floor(bdayDiffDays / 30.4375);
+    const bdayDays = Math.round(bdayDiffDays % 30.4375);
+
+    ageNextBday.innerHTML = `🎉 Next Birthday in: <span>${bdayMonths} Months, ${bdayDays} Days</span> (${bdayDiffDays} Days)`;
   }
+
   ageDob.addEventListener('change', calculateAge);
   calculateAge();
 
   // --- 5. Date Difference Calculator Implementation ---
   const dateStart = document.getElementById('date-start');
   const dateEnd = document.getElementById('date-end');
-  const dateResult = document.getElementById('date-result');
+  const datePrimary = document.getElementById('date-primary');
+  const dateYears = document.getElementById('date-years');
+  const dateMonths = document.getElementById('date-months');
+  const dateWeeks = document.getElementById('date-weeks');
+  const dateDays = document.getElementById('date-days');
+  const dateHours = document.getElementById('date-hours');
+  const dateMins = document.getElementById('date-mins');
 
   const todayStr = new Date().toISOString().split('T')[0];
   dateStart.value = todayStr;
@@ -555,16 +680,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function calculateDateDiff() {
     if (!dateStart.value || !dateEnd.value) return;
-    const d1 = new Date(dateStart.value);
-    const d2 = new Date(dateEnd.value);
+    const d1 = new Date(dateStart.value + 'T00:00:00');
+    const d2 = new Date(dateEnd.value + 'T00:00:00');
 
     const diffTime = Math.abs(d2 - d1);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    const weeks = Math.floor(diffDays / 7);
-    const remDays = diffDays % 7;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = diffDays * 24;
+    const diffMins = diffHours * 60;
+    const diffWeeks = Math.floor(diffDays / 7);
 
-    dateResult.textContent = `${diffDays} Total Days (${weeks} weeks, ${remDays} days)`;
+    // Approximate Year & Month diff
+    let start = d1 < d2 ? d1 : d2;
+    let end = d1 < d2 ? d2 : d1;
+    let y = end.getFullYear() - start.getFullYear();
+    let m = end.getMonth() - start.getMonth();
+    if (m < 0) { y--; m += 12; }
+
+    datePrimary.textContent = `${diffDays.toLocaleString()} Total Days Difference`;
+    dateYears.textContent = y;
+    dateMonths.textContent = m;
+    dateWeeks.textContent = diffWeeks.toLocaleString();
+    dateDays.textContent = diffDays.toLocaleString();
+    dateHours.textContent = diffHours.toLocaleString();
+    dateMins.textContent = diffMins.toLocaleString();
   }
+
   dateStart.addEventListener('change', calculateDateDiff);
   dateEnd.addEventListener('change', calculateDateDiff);
   calculateDateDiff();
