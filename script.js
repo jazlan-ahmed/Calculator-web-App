@@ -208,13 +208,19 @@ const UNIT_DATA = {
 document.addEventListener('DOMContentLoaded', () => {
   const calc = new Calculator();
 
-  // Navigation & UI Elements
-  const sidebar = document.getElementById('sidebar');
-  const sidebarOverlay = document.getElementById('sidebar-overlay');
-  const openSidebarBtn = document.getElementById('open-sidebar-btn');
-  const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-  const viewTitle = document.getElementById('view-title');
+  // Quick Jump Navigation Header Scroll Handling
+  const quickNavBtns = document.querySelectorAll('.quick-nav-btn');
+  quickNavBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
 
+  // DOM Element References
   const exprDisplay = document.getElementById('expression-display');
   const resultDisplay = document.getElementById('result-display');
   const sciPanel = document.getElementById('scientific-panel');
@@ -224,73 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const angleToggleBtn = document.getElementById('angle-unit-toggle');
   const themeToggleBtn = document.getElementById('toggle-theme-btn');
   const modeToggleBtn = document.getElementById('toggle-mode-btn');
-
-  // Sidebar Controls
-  function openSidebar() {
-    sidebar.classList.add('active');
-    sidebarOverlay.classList.add('active');
-  }
-
-  function closeSidebar() {
-    sidebar.classList.remove('active');
-    sidebarOverlay.classList.remove('active');
-  }
-
-  openSidebarBtn.addEventListener('click', openSidebar);
-  closeSidebarBtn.addEventListener('click', closeSidebar);
-  sidebarOverlay.addEventListener('click', closeSidebar);
-
-  // Tab Switching & LocalStorage Memory
-  const navItems = document.querySelectorAll('.nav-item');
-  const toolViews = document.querySelectorAll('.tool-view');
-
-  const titleMap = {
-    calc: 'Calculator Pro',
-    unit: 'Unit Converter',
-    currency: 'Currency Converter',
-    bmi: 'BMI Calculator',
-    age: 'Age Calculator',
-    date: 'Date Difference',
-    loan: 'Loan / EMI Calculator',
-    tip: 'Tip Calculator',
-    discount: 'Discount Calculator'
-  };
-
-  function switchView(targetView) {
-    navItems.forEach(n => n.classList.remove('active'));
-    toolViews.forEach(v => v.classList.remove('active'));
-
-    const activeNavItem = document.querySelector(`.nav-item[data-view="${targetView}"]`);
-    const activeViewEl = document.getElementById(`view-${targetView}`);
-
-    if (activeNavItem && activeViewEl) {
-      activeNavItem.classList.add('active');
-      activeViewEl.classList.add('active');
-      viewTitle.textContent = titleMap[targetView] || 'CalcX Pro';
-
-      localStorage.setItem('calc_last_tool', targetView);
-
-      if (targetView === 'calc') {
-        modeToggleBtn.classList.remove('hidden');
-        document.getElementById('toggle-history-btn').classList.remove('hidden');
-      } else {
-        modeToggleBtn.classList.add('hidden');
-        document.getElementById('toggle-history-btn').classList.add('hidden');
-      }
-    }
-  }
-
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const targetView = item.getAttribute('data-view');
-      switchView(targetView);
-      closeSidebar();
-    });
-  });
-
-  // Restore Last Selected Tool
-  const savedTool = localStorage.getItem('calc_last_tool') || 'calc';
-  switchView(savedTool);
 
   // --- Calculator UI Handlers ---
   function updateCalcDisplay() {
@@ -327,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  document.querySelector('#view-calc .keypad-container').addEventListener('click', (e) => {
+  document.querySelector('#card-calc .keypad-container').addEventListener('click', (e) => {
     const target = e.target.closest('button');
     if (!target) return;
 
@@ -384,7 +323,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.addEventListener('keydown', (e) => {
-    if (!document.getElementById('view-calc').classList.contains('active')) return;
+    // Skip keyboard shortcuts when user is typing in an input/select
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
     if (e.key >= '0' && e.key <= '9') calc.appendNumber(e.key);
     else if (e.key === '.') calc.appendNumber('.');
     else if (e.key === '+') calc.appendOperator('+');
