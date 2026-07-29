@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Calculator - Single Page Web App</title>
-  <meta name="description" content="A feature-rich, beautiful, responsive single-page calculator web application with basic and scientific operations, history, and theme switching.">
+  <title>CalcX Pro - Smart Calculator & Converters</title>
+  <meta name="description" content="A feature-rich, beautiful, responsive single-page web app with calculator, unit converters, currency live exchange rates, BMI, Age, EMI, and discount tools.">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,9 +14,60 @@
   <div class="bg-texture-grid"></div>
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
+
+  <!-- Sidebar Overlay & Navigation Drawer -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <span class="icon">🧮</span>
+        <h2>CalcX Suite</h2>
+      </div>
+      <button id="close-sidebar-btn" class="icon-btn" aria-label="Close Sidebar">✕</button>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">CALCULATORS</div>
+      <button class="nav-item active" data-view="calc">
+        <span class="nav-icon">🧮</span> Standard & Scientific
+      </button>
+      <button class="nav-item" data-view="bmi">
+        <span class="nav-icon">⚖️</span> BMI Calculator
+      </button>
+      <button class="nav-item" data-view="age">
+        <span class="nav-icon">🎂</span> Age Calculator
+      </button>
+      <button class="nav-item" data-view="date">
+        <span class="nav-icon">📅</span> Date Difference
+      </button>
+      <button class="nav-item" data-view="loan">
+        <span class="nav-icon">🏦</span> Loan / EMI Calculator
+      </button>
+      <button class="nav-item" data-view="tip">
+        <span class="nav-icon">🪙</span> Tip Calculator
+      </button>
+      <button class="nav-item" data-view="discount">
+        <span class="nav-icon">🏷️</span> Discount Calculator
+      </button>
+
+      <div class="nav-section-title">CONVERTERS</div>
+      <button class="nav-item" data-view="unit">
+        <span class="nav-icon">📐</span> Unit Converter
+      </button>
+      <button class="nav-item" data-view="currency">
+        <span class="nav-icon">🔱</span> Currency Converter
+      </button>
+    </nav>
+  </aside>
+
   <div class="app-container">
+    <!-- Top Welcome Banner -->
     <div class="welcome-banner">
-      <h2>Welcome to CalcX!</h2>
+      <div class="header-left">
+        <button id="open-sidebar-btn" class="icon-btn" title="Open Menu" aria-label="Open Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <h2 id="view-title">Welcome to CalcX!</h2>
+      </div>
       <div class="banner-actions">
         <button id="toggle-mode-btn" class="icon-btn" title="Toggle Scientific Mode" aria-label="Toggle Scientific Mode">
           <span class="mode-badge">SCI</span>
@@ -30,82 +81,249 @@
       </div>
     </div>
 
+    <!-- Main Dynamic Tool View Card -->
     <main class="calculator-card">
-      <!-- Display Screen -->
-      <section class="display-container">
-        <div class="expression-line" id="expression-display" aria-live="polite"></div>
-        <div class="result-line" id="result-display">0</div>
-        <div class="memory-badge-row">
-          <span class="memory-indicator hidden" id="memory-indicator">M</span>
-          <span class="deg-rad-indicator" id="angle-unit-toggle" title="Click to switch DEG/RAD">DEG</span>
+
+      <!-- View 1: Main Calculator -->
+      <div class="tool-view active" id="view-calc">
+        <section class="display-container">
+          <div class="expression-line" id="expression-display" aria-live="polite"></div>
+          <div class="result-line" id="result-display">0</div>
+          <div class="memory-badge-row">
+            <span class="memory-indicator hidden" id="memory-indicator">M</span>
+            <span class="deg-rad-indicator" id="angle-unit-toggle" title="Click to switch DEG/RAD">DEG</span>
+          </div>
+        </section>
+
+        <section class="keypad-container">
+          <div class="scientific-panel hidden" id="scientific-panel">
+            <button class="btn btn-sci" data-action="sin">sin</button>
+            <button class="btn btn-sci" data-action="cos">cos</button>
+            <button class="btn btn-sci" data-action="tan">tan</button>
+            <button class="btn btn-sci" data-action="log">log</button>
+            <button class="btn btn-sci" data-action="ln">ln</button>
+
+            <button class="btn btn-sci" data-action="sqrt">√</button>
+            <button class="btn btn-sci" data-action="pow">x^y</button>
+            <button class="btn btn-sci" data-action="sqr">x²</button>
+            <button class="btn btn-sci" data-action="pi">π</button>
+            <button class="btn btn-sci" data-action="e">e</button>
+
+            <button class="btn btn-sci" data-action="fact">n!</button>
+            <button class="btn btn-sci" data-action="inv">1/x</button>
+            <button class="btn btn-sci" data-action="abs">|x|</button>
+            <button class="btn btn-sci" data-action="open-paren">(</button>
+            <button class="btn btn-sci" data-action="close-paren">)</button>
+          </div>
+
+          <div class="memory-row">
+            <button class="btn btn-mem" data-action="mc">MC</button>
+            <button class="btn btn-mem" data-action="mr">MR</button>
+            <button class="btn btn-mem" data-action="m-add">M+</button>
+            <button class="btn btn-mem" data-action="m-sub">M-</button>
+            <button class="btn btn-mem" data-action="ms">MS</button>
+          </div>
+
+          <div class="standard-grid">
+            <button class="btn btn-accent" data-action="clear">AC</button>
+            <button class="btn btn-secondary" data-action="backspace">⌫</button>
+            <button class="btn btn-secondary" data-action="percent">%</button>
+            <button class="btn btn-op" data-action="operator" data-val="/">÷</button>
+
+            <button class="btn btn-num" data-val="7">7</button>
+            <button class="btn btn-num" data-val="8">8</button>
+            <button class="btn btn-num" data-val="9">9</button>
+            <button class="btn btn-op" data-action="operator" data-val="*">×</button>
+
+            <button class="btn btn-num" data-val="4">4</button>
+            <button class="btn btn-num" data-val="5">5</button>
+            <button class="btn btn-num" data-val="6">6</button>
+            <button class="btn btn-op" data-action="operator" data-val="-">−</button>
+
+            <button class="btn btn-num" data-val="1">1</button>
+            <button class="btn btn-num" data-val="2">2</button>
+            <button class="btn btn-num" data-val="3">3</button>
+            <button class="btn btn-op" data-action="operator" data-val="+">+</button>
+
+            <button class="btn btn-secondary" data-action="negate">±</button>
+            <button class="btn btn-num" data-val="0">0</button>
+            <button class="btn btn-num" data-val=".">.</button>
+            <button class="btn btn-equals" data-action="equals">=</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- View 2: Unit Converter -->
+      <div class="tool-view" id="view-unit">
+        <div class="tool-form">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="unit-category" class="custom-select">
+              <option value="length">Length</option>
+              <option value="weight">Weight</option>
+              <option value="temperature">Temperature</option>
+              <option value="speed">Speed</option>
+              <option value="area">Area</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Value</label>
+            <input type="number" id="unit-val" value="1" class="custom-input" placeholder="Enter value">
+          </div>
+          <div class="converter-row">
+            <div class="form-group">
+              <label>From</label>
+              <select id="unit-from" class="custom-select"></select>
+            </div>
+            <button id="unit-swap-btn" class="icon-btn swap-btn" title="Swap Units">⇄</button>
+            <div class="form-group">
+              <label>To</label>
+              <select id="unit-to" class="custom-select"></select>
+            </div>
+          </div>
+          <div class="result-box" id="unit-result">0</div>
         </div>
-      </section>
+      </div>
 
-      <!-- Keypad Section -->
-      <section class="keypad-container">
-        <!-- Scientific Panel (Collapsible / Toggleable) -->
-        <div class="scientific-panel hidden" id="scientific-panel">
-          <button class="btn btn-sci" data-action="sin">sin</button>
-          <button class="btn btn-sci" data-action="cos">cos</button>
-          <button class="btn btn-sci" data-action="tan">tan</button>
-          <button class="btn btn-sci" data-action="log">log</button>
-          <button class="btn btn-sci" data-action="ln">ln</button>
-
-          <button class="btn btn-sci" data-action="sqrt">√</button>
-          <button class="btn btn-sci" data-action="pow">x^y</button>
-          <button class="btn btn-sci" data-action="sqr">x²</button>
-          <button class="btn btn-sci" data-action="pi">π</button>
-          <button class="btn btn-sci" data-action="e">e</button>
-
-          <button class="btn btn-sci" data-action="fact">n!</button>
-          <button class="btn btn-sci" data-action="inv">1/x</button>
-          <button class="btn btn-sci" data-action="abs">|x|</button>
-          <button class="btn btn-sci" data-action="open-paren">(</button>
-          <button class="btn btn-sci" data-action="close-paren">)</button>
+      <!-- View 3: Currency Converter -->
+      <div class="tool-view" id="view-currency">
+        <div class="tool-form">
+          <div class="form-group">
+            <label>Amount</label>
+            <input type="number" id="curr-amount" value="100" class="custom-input" placeholder="Amount">
+          </div>
+          <div class="converter-row">
+            <div class="form-group">
+              <label>From Currency</label>
+              <select id="curr-from" class="custom-select"></select>
+            </div>
+            <button id="curr-swap-btn" class="icon-btn swap-btn" title="Swap Currencies">⇄</button>
+            <div class="form-group">
+              <label>To Currency</label>
+              <select id="curr-to" class="custom-select"></select>
+            </div>
+          </div>
+          <div class="result-box" id="curr-result">Loading Exchange Rates...</div>
+          <div class="rate-status" id="curr-status">Rates updated via Open Exchange</div>
         </div>
+      </div>
 
-        <!-- Memory Row -->
-        <div class="memory-row">
-          <button class="btn btn-mem" data-action="mc">MC</button>
-          <button class="btn btn-mem" data-action="mr">MR</button>
-          <button class="btn btn-mem" data-action="m-add">M+</button>
-          <button class="btn btn-mem" data-action="m-sub">M-</button>
-          <button class="btn btn-mem" data-action="ms">MS</button>
+      <!-- View 4: BMI Calculator -->
+      <div class="tool-view" id="view-bmi">
+        <div class="tool-form">
+          <div class="form-group">
+            <label>Height (cm)</label>
+            <input type="number" id="bmi-height" value="175" class="custom-input" placeholder="e.g. 175">
+          </div>
+          <div class="form-group">
+            <label>Weight (kg)</label>
+            <input type="number" id="bmi-weight" value="70" class="custom-input" placeholder="e.g. 70">
+          </div>
+          <div class="result-box" id="bmi-result">
+            <div class="bmi-score" id="bmi-score">22.9</div>
+            <div class="bmi-category" id="bmi-category">Normal Weight</div>
+          </div>
         </div>
+      </div>
 
-        <!-- Main Standard Keypad Grid -->
-        <div class="standard-grid">
-          <button class="btn btn-accent" data-action="clear">AC</button>
-          <button class="btn btn-secondary" data-action="backspace">⌫</button>
-          <button class="btn btn-secondary" data-action="percent">%</button>
-          <button class="btn btn-op" data-action="operator" data-val="/">÷</button>
-
-          <button class="btn btn-num" data-val="7">7</button>
-          <button class="btn btn-num" data-val="8">8</button>
-          <button class="btn btn-num" data-val="9">9</button>
-          <button class="btn btn-op" data-action="operator" data-val="*">×</button>
-
-          <button class="btn btn-num" data-val="4">4</button>
-          <button class="btn btn-num" data-val="5">5</button>
-          <button class="btn btn-num" data-val="6">6</button>
-          <button class="btn btn-op" data-action="operator" data-val="-">−</button>
-
-          <button class="btn btn-num" data-val="1">1</button>
-          <button class="btn btn-num" data-val="2">2</button>
-          <button class="btn btn-num" data-val="3">3</button>
-          <button class="btn btn-op" data-action="operator" data-val="+">+</button>
-
-          <button class="btn btn-secondary" data-action="negate">±</button>
-          <button class="btn btn-num" data-val="0">0</button>
-          <button class="btn btn-num" data-val=".">.</button>
-          <button class="btn btn-equals" data-action="equals">=</button>
+      <!-- View 5: Age Calculator -->
+      <div class="tool-view" id="view-age">
+        <div class="tool-form">
+          <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" id="age-dob" class="custom-input">
+          </div>
+          <div class="result-box" id="age-result">Select your birth date</div>
         </div>
-      </section>
+      </div>
+
+      <!-- View 6: Date Difference Calculator -->
+      <div class="tool-view" id="view-date">
+        <div class="tool-form">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="date" id="date-start" class="custom-input">
+          </div>
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="date" id="date-end" class="custom-input">
+          </div>
+          <div class="result-box" id="date-result">Select two dates</div>
+        </div>
+      </div>
+
+      <!-- View 7: Loan / EMI Calculator -->
+      <div class="tool-view" id="view-loan">
+        <div class="tool-form">
+          <div class="form-group">
+            <label>Loan Amount ($)</label>
+            <input type="number" id="loan-amount" value="10000" class="custom-input">
+          </div>
+          <div class="form-group">
+            <label>Annual Interest Rate (%)</label>
+            <input type="number" id="loan-rate" value="7.5" step="0.1" class="custom-input">
+          </div>
+          <div class="form-group">
+            <label>Loan Tenure (Years)</label>
+            <input type="number" id="loan-tenure" value="3" class="custom-input">
+          </div>
+          <div class="result-box loan-result-box" id="loan-result">
+            <div>Monthly EMI: <strong id="loan-emi">$309.95</strong></div>
+            <div class="sub-detail">Total Interest: <span id="loan-interest">$1,158.20</span></div>
+            <div class="sub-detail">Total Payment: <span id="loan-total">$11,158.20</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View 8: Tip Calculator -->
+      <div class="tool-view" id="view-tip">
+        <div class="tool-form">
+          <div class="form-group">
+            <label>Bill Amount ($)</label>
+            <input type="number" id="tip-bill" value="50" class="custom-input">
+          </div>
+          <div class="form-group">
+            <label>Tip Percentage (%)</label>
+            <input type="number" id="tip-percent" value="15" class="custom-input">
+          </div>
+          <div class="form-group">
+            <label>Split Among (People)</label>
+            <input type="number" id="tip-people" value="2" min="1" class="custom-input">
+          </div>
+          <div class="result-box loan-result-box" id="tip-result">
+            <div>Per Person: <strong id="tip-per-person">$28.75</strong></div>
+            <div class="sub-detail">Total Tip: <span id="tip-total-amount">$7.50</span></div>
+            <div class="sub-detail">Total Bill: <span id="tip-total-bill">$57.50</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View 9: Discount Calculator -->
+      <div class="tool-view" id="view-discount">
+        <div class="tool-form">
+          <div class="form-group">
+            <label>Original Price ($)</label>
+            <input type="number" id="disc-price" value="120" class="custom-input">
+          </div>
+          <div class="form-group">
+            <label>Discount (%)</label>
+            <input type="number" id="disc-percent" value="20" class="custom-input">
+          </div>
+          <div class="result-box loan-result-box" id="disc-result">
+            <div>Final Price: <strong id="disc-final">$96.00</strong></div>
+            <div class="sub-detail">You Save: <span id="disc-saved">$24.00</span></div>
+          </div>
+        </div>
+      </div>
+
     </main>
 
+    <!-- Bottom Footer Note -->
     <footer class="app-footer">
       <p>Thanks for choosing CalcX</p>
     </footer>
+
+    <!-- History Drawer Overlay -->
     <aside class="history-drawer hidden" id="history-drawer">
       <div class="history-header">
         <h3>Calculation History</h3>
