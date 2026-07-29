@@ -158,9 +158,29 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 22px 18px 18px;
+  padding: 22px 18px 14px;
   border-bottom: 1px solid var(--card-border);
   flex-shrink: 0;
+}
+
+.sidebar-search-box {
+  padding: 10px 12px 6px;
+  flex-shrink: 0;
+}
+#sidebar-search {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--card-border);
+  background: var(--display-bg);
+  color: var(--text-main);
+  font-size: 0.82rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#sidebar-search:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
 }
 .brand-icon { font-size: 1.8rem; }
 .brand-text h2 {

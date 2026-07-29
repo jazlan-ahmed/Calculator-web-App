@@ -1,8 +1,7 @@
 // ==========================================
-// CalcX Pro - SaaS Multi-Calculator Engine
+// CalcX Pro - 50-in-1 Calculator Hub Engine
 // ==========================================
 
-// --- Toast Notification Engine ---
 function showToast(message, type = 'info') {
   const container = document.getElementById('toast-container');
   if (!container) return;
@@ -27,39 +26,22 @@ class Calculator {
     this.history = JSON.parse(localStorage.getItem('calc_history') || '[]');
     this.isEvaluated = false;
   }
-
   appendNumber(digit) {
-    if (this.isEvaluated) {
-      this.currentInput = digit === '.' ? '0.' : digit;
-      this.expression = '';
-      this.isEvaluated = false;
-      return;
-    }
+    if (this.isEvaluated) { this.currentInput = digit === '.' ? '0.' : digit; this.expression = ''; this.isEvaluated = false; return; }
     if (digit === '.') {
       const parts = this.currentInput.split(/[\+\-\*\/\%]/);
-      const lastPart = parts[parts.length - 1];
-      if (lastPart.includes('.')) return;
+      if (parts[parts.length - 1].includes('.')) return;
       if (this.currentInput === '' || this.currentInput === '0') { this.currentInput = '0.'; return; }
     }
     if (this.currentInput === '0' && digit !== '.') this.currentInput = digit;
     else this.currentInput += digit;
   }
-
   appendOperator(op) {
-    if (this.isEvaluated) {
-      this.expression = this.currentInput + ' ' + op + ' ';
-      this.currentInput = '';
-      this.isEvaluated = false;
-      return;
-    }
-    if (this.currentInput === '' && this.expression !== '') {
-      this.expression = this.expression.trimEnd().slice(0, -1) + op + ' ';
-      return;
-    }
+    if (this.isEvaluated) { this.expression = this.currentInput + ' ' + op + ' '; this.currentInput = ''; this.isEvaluated = false; return; }
+    if (this.currentInput === '' && this.expression !== '') { this.expression = this.expression.trimEnd().slice(0, -1) + op + ' '; return; }
     this.expression += (this.currentInput || '0') + ' ' + op + ' ';
     this.currentInput = '';
   }
-
   appendFunction(fnName) {
     let val = parseFloat(this.currentInput || '0');
     let res = 0;
@@ -71,28 +53,14 @@ class Calculator {
       case 'ln': res = Math.log(val); break;
       case 'sqrt': res = Math.sqrt(val); break;
       case 'sqr': res = Math.pow(val, 2); break;
-      case 'fact': res = this.factorial(val); break;
-      case 'inv': res = val !== 0 ? 1 / val : 'Error'; break;
-      case 'abs': res = Math.abs(val); break;
       case 'pi': this.currentInput = Math.PI.toString(); return;
       case 'e': this.currentInput = Math.E.toString(); return;
       case 'pow': this.appendOperator('^'); return;
-      case 'open-paren': this.currentInput += '('; return;
-      case 'close-paren': this.currentInput += ')'; return;
     }
     if (typeof res === 'number') res = Number(res.toFixed(10));
     this.currentInput = res.toString();
     this.isEvaluated = true;
   }
-
-  factorial(n) {
-    if (n < 0) return 'Error';
-    if (n === 0 || n === 1) return 1;
-    let result = 1;
-    for (let i = 2; i <= Math.min(n, 170); i++) result *= i;
-    return result;
-  }
-
   backspace() {
     if (this.isEvaluated) { this.clearAll(); return; }
     if (this.currentInput.length > 0) {
@@ -100,24 +68,18 @@ class Calculator {
       if (this.currentInput === '' || this.currentInput === '-') this.currentInput = '0';
     }
   }
-
   toggleSign() {
     if (this.currentInput !== '0' && this.currentInput !== '') {
-      this.currentInput = this.currentInput.startsWith('-')
-        ? this.currentInput.slice(1)
-        : '-' + this.currentInput;
+      this.currentInput = this.currentInput.startsWith('-') ? this.currentInput.slice(1) : '-' + this.currentInput;
     }
   }
-
   clearAll() { this.expression = ''; this.currentInput = '0'; this.isEvaluated = false; }
-
   evaluate() {
     let fullExpr = this.expression + (this.currentInput || '');
     if (!fullExpr.trim()) return;
     try {
-      let evalExpr = fullExpr
-        .replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').replace(/\^/g, '**');
-      if (/[^0-9\+\-\*\/\%\.\(\)\s\*\*]/.test(evalExpr)) throw new Error('Invalid Input');
+      let evalExpr = fullExpr.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').replace(/\^/g, '**');
+      if (/[^0-9\+\-\*\/\%\.\(\)\s\*\*]/.test(evalExpr)) throw new Error('Invalid');
       let result = eval(evalExpr);
       if (typeof result === 'number' && !isNaN(result)) {
         result = Number(result.toFixed(10));
@@ -127,138 +89,83 @@ class Calculator {
         this.expression = fullExpr + ' =';
         this.currentInput = result.toString();
         this.isEvaluated = true;
-      } else {
-        this.currentInput = 'Error';
-        showToast('Invalid Math Operation', 'error');
-      }
-    } catch (e) {
-      this.currentInput = 'Error';
-      showToast('Syntax Error in Expression', 'error');
-    }
+      } else { this.currentInput = 'Error'; }
+    } catch { this.currentInput = 'Error'; }
   }
-
   memoryClear() { this.memory = 0; showToast('Memory Cleared'); }
   memoryRead() { this.currentInput = this.memory.toString(); this.isEvaluated = true; showToast(`Recalled ${this.memory}`); }
-  memoryAdd() { this.memory += parseFloat(this.currentInput || 0); showToast(`Added to Memory (${this.memory})`); }
-  memorySub() { this.memory -= parseFloat(this.currentInput || 0); showToast(`Subtracted from Memory (${this.memory})`); }
-  memorySet() { this.memory = parseFloat(this.currentInput || 0); showToast(`Stored in Memory (${this.memory})`); }
+  memoryAdd() { this.memory += parseFloat(this.currentInput || 0); showToast(`Memory (${this.memory})`); }
+  memorySub() { this.memory -= parseFloat(this.currentInput || 0); showToast(`Memory (${this.memory})`); }
+  memorySet() { this.memory = parseFloat(this.currentInput || 0); showToast(`Stored ${this.memory}`); }
 }
 
-// --- Unit Converter Data ---
 const UNIT_DATA = {
-  length: {
-    units: { m: 1, km: 1000, cm: 0.01, mm: 0.001, mi: 1609.344, yd: 0.9144, ft: 0.3048, in: 0.0254 },
-    labels: { m: 'Meter (m)', km: 'Kilometer (km)', cm: 'Centimeter (cm)', mm: 'Millimeter (mm)', mi: 'Mile (mi)', yd: 'Yard (yd)', ft: 'Foot (ft)', in: 'Inch (in)' }
-  },
-  weight: {
-    units: { kg: 1, g: 0.001, mg: 0.000001, lb: 0.453592, oz: 0.0283495, ton: 1000 },
-    labels: { kg: 'Kilogram (kg)', g: 'Gram (g)', mg: 'Milligram (mg)', lb: 'Pound (lb)', oz: 'Ounce (oz)', ton: 'Metric Ton (t)' }
-  },
-  temperature: {
-    units: { c: 'Celsius', f: 'Fahrenheit', k: 'Kelvin' },
-    labels: { c: 'Celsius (°C)', f: 'Fahrenheit (°F)', k: 'Kelvin (K)' }
-  },
-  speed: {
-    units: { 'm/s': 1, 'km/h': 0.277778, mph: 0.44704, knot: 0.514444 },
-    labels: { 'm/s': 'Meters/sec (m/s)', 'km/h': 'Kilometers/hour (km/h)', mph: 'Miles/hour (mph)', knot: 'Knot (kn)' }
-  },
-  area: {
-    units: { m2: 1, km2: 1000000, ft2: 0.092903, acre: 4046.86, hectare: 10000 },
-    labels: { m2: 'Square Meter (m²)', km2: 'Square Km (km²)', ft2: 'Square Foot (ft²)', acre: 'Acre', hectare: 'Hectare' }
-  }
+  length: { units: { m: 1, km: 1000, cm: 0.01, mm: 0.001, mi: 1609.344, yd: 0.9144, ft: 0.3048, in: 0.0254 }, labels: { m: 'Meter (m)', km: 'Kilometer (km)', cm: 'Centimeter (cm)', mm: 'Millimeter (mm)', mi: 'Mile (mi)', yd: 'Yard (yd)', ft: 'Foot (ft)', in: 'Inch (in)' } },
+  weight: { units: { kg: 1, g: 0.001, mg: 0.000001, lb: 0.453592, oz: 0.0283495, ton: 1000 }, labels: { kg: 'Kilogram (kg)', g: 'Gram (g)', mg: 'Milligram (mg)', lb: 'Pound (lb)', oz: 'Ounce (oz)', ton: 'Metric Ton (t)' } },
+  temperature: { units: { c: 'Celsius', f: 'Fahrenheit', k: 'Kelvin' }, labels: { c: 'Celsius (°C)', f: 'Fahrenheit (°F)', k: 'Kelvin (K)' } },
+  speed: { units: { 'm/s': 1, 'km/h': 0.277778, mph: 0.44704, knot: 0.514444 }, labels: { 'm/s': 'Meters/sec (m/s)', 'km/h': 'Kilometers/hour (km/h)', mph: 'Miles/hour (mph)', knot: 'Knot (kn)' } },
+  area: { units: { m2: 1, km2: 1000000, ft2: 0.092903, acre: 4046.86, hectare: 10000 }, labels: { m2: 'Square Meter (m²)', km2: 'Square Km (km²)', ft2: 'Square Foot (ft²)', acre: 'Acre', hectare: 'Hectare' } }
 };
 
-// ==========================================
-// Main DOM Controller
-// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   const calc = new Calculator();
-
-  // --- DOM References ---
-  const exprDisplay    = document.getElementById('expression-display');
-  const resultDisplay  = document.getElementById('result-display');
-  const sciPanel       = document.getElementById('scientific-panel');
-  const historyDrawer  = document.getElementById('history-drawer');
-  const historyList    = document.getElementById('history-list');
-  const memoryIndicator= document.getElementById('memory-indicator');
+  const exprDisplay = document.getElementById('expression-display');
+  const resultDisplay = document.getElementById('result-display');
+  const sciPanel = document.getElementById('scientific-panel');
+  const historyDrawer = document.getElementById('history-drawer');
+  const historyList = document.getElementById('history-list');
+  const memoryIndicator = document.getElementById('memory-indicator');
   const angleToggleBtn = document.getElementById('angle-unit-toggle');
   const themeToggleBtn = document.getElementById('toggle-theme-btn');
-  const modeToggleBtn  = document.getElementById('toggle-mode-btn');
-  const viewTitle      = document.getElementById('view-title');
-  const sidebar        = document.getElementById('sidebar');
-  const sidebarToggle  = document.getElementById('sidebar-toggle-btn');
+  const modeToggleBtn = document.getElementById('toggle-mode-btn');
+  const viewTitle = document.getElementById('view-title');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarToggle = document.getElementById('sidebar-toggle-btn');
+  const sidebarSearch = document.getElementById('sidebar-search');
 
-  // --- Tool title map ---
-  const titleMap = {
-    calc:     'Standard & Scientific Calculator',
-    unit:     'Unit Converter',
-    currency: 'Currency Converter',
-    bmi:      'BMI Calculator',
-    age:      'Age Calculator',
-    date:     'Date Difference',
-    loan:     'Loan / EMI Calculator',
-    tip:      'Tip Calculator',
-    discount: 'Discount Calculator'
-  };
-
-  // --- Sidebar toggle (mobile) ---
-  let sidebarOverlay = null;
-
-  function createOverlay() {
-    if (sidebarOverlay) return;
-    sidebarOverlay = document.createElement('div');
-    sidebarOverlay.classList.add('sidebar-overlay');
-    document.body.appendChild(sidebarOverlay);
-    sidebarOverlay.addEventListener('click', closeMobileSidebar);
+  // --- Real-time Sidebar Search ---
+  if (sidebarSearch) {
+    sidebarSearch.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    });
   }
 
+  // --- Sidebar Mobile Overlay ---
+  let sidebarOverlay = null;
   function openMobileSidebar() {
-    createOverlay();
+    if (!sidebarOverlay) {
+      sidebarOverlay = document.createElement('div');
+      sidebarOverlay.className = 'sidebar-overlay';
+      document.body.appendChild(sidebarOverlay);
+      sidebarOverlay.addEventListener('click', closeMobileSidebar);
+    }
     sidebar.classList.add('open');
     sidebarOverlay.classList.add('active');
   }
-
   function closeMobileSidebar() {
     sidebar.classList.remove('open');
     if (sidebarOverlay) sidebarOverlay.classList.remove('active');
   }
+  if (sidebarToggle) sidebarToggle.addEventListener('click', openMobileSidebar);
 
-  if (sidebarToggle) {
-    sidebarToggle.addEventListener('click', () => {
-      if (sidebar.classList.contains('open')) closeMobileSidebar();
-      else openMobileSidebar();
-    });
-  }
+  // --- Navigation & View Switcher ---
+  const navItems = document.querySelectorAll('.nav-item');
+  const toolViews = document.querySelectorAll('.tool-view');
 
-  // --- View Switching ---
-  const navItems    = document.querySelectorAll('.nav-item');
-  const subNavItems = document.querySelectorAll('.sub-nav-item');
-  const toolViews   = document.querySelectorAll('.tool-view');
-
-  function switchView(targetView, unitCategory = null) {
+  function switchView(targetView) {
     navItems.forEach(n => n.classList.remove('active'));
-    subNavItems.forEach(n => n.classList.remove('active'));
     toolViews.forEach(v => v.classList.remove('active'));
-
-    const activeNav  = document.querySelector(`.nav-item[data-view="${targetView}"]`);
+    const activeNav = document.querySelector(`.nav-item[data-view="${targetView}"]`);
     const activeView = document.getElementById(`view-${targetView}`);
-
     if (activeNav && activeView) {
       activeNav.classList.add('active');
       activeView.classList.add('active');
-      viewTitle.textContent = titleMap[targetView] || 'CalcX Pro';
+      viewTitle.textContent = activeNav.querySelector('.nav-label').textContent;
       localStorage.setItem('calc_last_tool', targetView);
-
-      if (targetView === 'unit' && unitCategory) {
-        const subNav = document.querySelector(`.sub-nav-item[data-unit-cat="${unitCategory}"]`);
-        if (subNav) subNav.classList.add('active');
-        if (unitCategorySelect) {
-          unitCategorySelect.value = unitCategory;
-          populateUnitDropdowns();
-        }
-      }
-
-      // Show/hide SCI & History buttons (only relevant for calculator)
       if (targetView === 'calc') {
         modeToggleBtn.classList.remove('hidden');
         document.getElementById('toggle-history-btn').classList.remove('hidden');
@@ -272,56 +179,19 @@ document.addEventListener('DOMContentLoaded', () => {
   navItems.forEach(item => {
     item.addEventListener('click', () => {
       switchView(item.getAttribute('data-view'));
-      closeMobileSidebar(); // close on mobile after pick
-    });
-  });
-
-  subNavItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const targetView = item.getAttribute('data-view');
-      const unitCat    = item.getAttribute('data-unit-cat');
-      switchView(targetView, unitCat);
       closeMobileSidebar();
     });
   });
-
-  // Restore last selected tool
   switchView(localStorage.getItem('calc_last_tool') || 'calc');
 
-  // --- Calculator Display ---
+  // --- Main Calculator UI ---
   function updateCalcDisplay() {
     exprDisplay.textContent = calc.expression;
     resultDisplay.textContent = calc.currentInput || '0';
     if (calc.memory !== 0) memoryIndicator.classList.remove('hidden');
     else memoryIndicator.classList.add('hidden');
-    if (calc.currentInput.length > 12) resultDisplay.style.fontSize = '1.75rem';
-    else if (calc.currentInput.length > 8) resultDisplay.style.fontSize = '2.1rem';
-    else resultDisplay.style.fontSize = '2.5rem';
   }
 
-  function renderHistory() {
-    if (calc.history.length === 0) {
-      historyList.innerHTML = '<div class="empty-history">No history recorded yet</div>';
-      return;
-    }
-    historyList.innerHTML = calc.history.map(item => `
-      <div class="history-item" data-res="${item.result}">
-        <span class="history-expr">${item.expr}</span>
-        <span class="history-res">${item.result}</span>
-      </div>
-    `).join('');
-    document.querySelectorAll('.history-item').forEach(item => {
-      item.addEventListener('click', () => {
-        calc.currentInput = item.getAttribute('data-res');
-        calc.isEvaluated = true;
-        updateCalcDisplay();
-        historyDrawer.classList.add('hidden');
-      });
-    });
-  }
-
-  // Keypad listener
   document.querySelector('#view-calc .keypad-container').addEventListener('click', (e) => {
     const target = e.target.closest('button');
     if (!target) return;
@@ -334,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (action === 'backspace') calc.backspace();
     else if (action === 'negate') calc.toggleSign();
     else if (action === 'percent') { calc.currentInput = (parseFloat(calc.currentInput || 0) / 100).toString(); calc.isEvaluated = true; }
-    else if (action && ['sin','cos','tan','log','ln','sqrt','sqr','pow','pi','e','fact','inv','abs','open-paren','close-paren'].includes(action)) calc.appendFunction(action);
+    else if (action && ['sin','cos','tan','log','ln','sqrt','sqr','pow','pi','e'].includes(action)) calc.appendFunction(action);
     else if (action === 'mc') calc.memoryClear();
     else if (action === 'mr') calc.memoryRead();
     else if (action === 'm-add') calc.memoryAdd();
@@ -344,336 +214,189 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   modeToggleBtn.addEventListener('click', () => sciPanel.classList.toggle('hidden'));
-
-  document.getElementById('toggle-history-btn').addEventListener('click', () => {
-    renderHistory();
-    historyDrawer.classList.remove('hidden');
-  });
-  document.getElementById('close-history-btn').addEventListener('click', () => historyDrawer.classList.add('hidden'));
-  document.getElementById('clear-history-btn').addEventListener('click', () => {
-    calc.history = [];
-    localStorage.removeItem('calc_history');
-    renderHistory();
-    showToast('Calculation History Cleared');
-  });
-
   themeToggleBtn.addEventListener('click', () => {
-    const newTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.body.setAttribute('data-theme', newTheme);
-    themeToggleBtn.querySelector('.theme-icon').textContent = newTheme === 'dark' ? '🌙' : '☀️';
-    showToast(`Switched to ${newTheme.toUpperCase()} theme`);
+    const nextTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.body.setAttribute('data-theme', nextTheme);
+    showToast(`Switched to ${nextTheme.toUpperCase()} theme`);
   });
 
-  angleToggleBtn.addEventListener('click', () => {
-    calc.isAngleDeg = !calc.isAngleDeg;
-    angleToggleBtn.textContent = calc.isAngleDeg ? 'DEG' : 'RAD';
-    showToast(`Angle unit: ${calc.isAngleDeg ? 'Degrees' : 'Radians'}`);
-  });
+  // --- Helper Calculators Setup ---
 
-  // Keyboard support (when not typing in an input)
-  window.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
-    if (document.getElementById('view-calc').classList.contains('active')) {
-      if (e.key >= '0' && e.key <= '9') calc.appendNumber(e.key);
-      else if (e.key === '.') calc.appendNumber('.');
-      else if (e.key === '+') calc.appendOperator('+');
-      else if (e.key === '-') calc.appendOperator('-');
-      else if (e.key === '*') calc.appendOperator('*');
-      else if (e.key === '/') { e.preventDefault(); calc.appendOperator('/'); }
-      else if (e.key === '%') calc.currentInput = (parseFloat(calc.currentInput || 0) / 100).toString();
-      else if (e.key === 'Enter' || e.key === '=') calc.evaluate();
-      else if (e.key === 'Backspace') calc.backspace();
-      else if (e.key === 'Escape') calc.clearAll();
-      else if (e.key === '(') calc.appendFunction('open-paren');
-      else if (e.key === ')') calc.appendFunction('close-paren');
-      updateCalcDisplay();
+  // Percentage
+  const pctX = document.getElementById('pct-x'), pctY = document.getElementById('pct-y'), pctRes = document.getElementById('pct-res');
+  function calcPct() { if (pctX && pctY) pctRes.textContent = `$${(((parseFloat(pctX.value)||0)*(parseFloat(pctY.value)||0))/100).toFixed(2)}`; }
+  [pctX, pctY].forEach(el => el && el.addEventListener('input', calcPct)); calcPct();
+
+  // Average
+  const avgInput = document.getElementById('avg-input'), avgMean = document.getElementById('avg-mean'), avgCount = document.getElementById('avg-count'), avgSum = document.getElementById('avg-sum'), avgMedian = document.getElementById('avg-median');
+  function calcAvg() {
+    if (!avgInput) return;
+    const nums = avgInput.value.split(/[\s,]+/).map(Number).filter(n => !isNaN(n));
+    if (nums.length === 0) return;
+    const sum = nums.reduce((a,b)=>a+b,0);
+    nums.sort((a,b)=>a-b);
+    const mid = Math.floor(nums.length/2);
+    const med = nums.length % 2 !== 0 ? nums[mid] : (nums[mid-1] + nums[mid])/2;
+    avgMean.textContent = (sum/nums.length).toFixed(2);
+    avgCount.textContent = nums.length;
+    avgSum.textContent = sum;
+    avgMedian.textContent = med;
+  }
+  if (avgInput) avgInput.addEventListener('input', calcAvg); calcAvg();
+
+  // Ratio
+  const ra = document.getElementById('ratio-a'), rb = document.getElementById('ratio-b'), rc = document.getElementById('ratio-c'), rdRes = document.getElementById('ratio-res');
+  function calcRatio() {
+    if (ra && rb && rc && parseFloat(ra.value) !== 0) {
+      rdRes.textContent = ((parseFloat(rb.value)*parseFloat(rc.value))/parseFloat(ra.value)).toFixed(2);
     }
+  }
+  [ra, rb, rc].forEach(el => el && el.addEventListener('input', calcRatio)); calcRatio();
+
+  // Fraction
+  const fn1 = document.getElementById('frac-n1'), fd1 = document.getElementById('frac-d1'), fop = document.getElementById('frac-op'), fn2 = document.getElementById('frac-n2'), fd2 = document.getElementById('frac-d2'), fRes = document.getElementById('frac-res');
+  function calcFrac() {
+    if (!fn1) return;
+    const n1 = parseFloat(fn1.value)||0, d1 = parseFloat(fd1.value)||1, n2 = parseFloat(fn2.value)||0, d2 = parseFloat(fd2.value)||1, op = fop.value;
+    let num = 0, den = d1*d2;
+    if (op === '+') num = n1*d2 + n2*d1;
+    else if (op === '-') num = n1*d2 - n2*d1;
+    else if (op === '*') { num = n1*n2; den = d1*d2; }
+    else if (op === '/') { num = n1*d2; den = d1*n2; }
+    fRes.textContent = `${num}/${den} (${(num/den).toFixed(2)})`;
+  }
+  [fn1, fd1, fop, fn2, fd2].forEach(el => el && el.addEventListener('change', calcFrac)); calcFrac();
+
+  // LCM & HCF
+  const lh1 = document.getElementById('lh-num1'), lh2 = document.getElementById('lh-num2'), lcmR = document.getElementById('lcm-res'), hcfR = document.getElementById('hcf-res');
+  function gcd(a,b) { return b === 0 ? a : gcd(b, a%b); }
+  function calcLH() {
+    if (!lh1) return;
+    const a = Math.abs(parseInt(lh1.value)||1), b = Math.abs(parseInt(lh2.value)||1);
+    const g = gcd(a,b);
+    hcfR.textContent = g;
+    lcmR.textContent = (a*b)/g;
+  }
+  [lh1, lh2].forEach(el => el && el.addEventListener('input', calcLH)); calcLH();
+
+  // Prime
+  const pNum = document.getElementById('prime-num'), pRes = document.getElementById('prime-res');
+  function calcPrime() {
+    if (!pNum) return;
+    const n = parseInt(pNum.value)||0;
+    if (n < 2) { pRes.textContent = `${n} is NOT prime`; return; }
+    let isP = true;
+    for (let i = 2; i <= Math.sqrt(n); i++) { if (n % i === 0) { isP = false; break; } }
+    pRes.textContent = isP ? `${n} is a PRIME number` : `${n} is a COMPOSITE number`;
+  }
+  if (pNum) pNum.addEventListener('input', calcPrime); calcPrime();
+
+  // RNG
+  const rMin = document.getElementById('rng-min'), rMax = document.getElementById('rng-max'), rBtn = document.getElementById('rng-generate-btn'), rRes = document.getElementById('rng-res');
+  if (rBtn) rBtn.addEventListener('click', () => {
+    const min = parseInt(rMin.value)||0, max = parseInt(rMax.value)||100;
+    rRes.textContent = Math.floor(Math.random()*(max-min+1))+min;
   });
 
-  // --- 1. Unit Converter ---
-  const unitCategorySelect = document.getElementById('unit-category');
-  const unitFromSelect = document.getElementById('unit-from');
-  const unitToSelect   = document.getElementById('unit-to');
-  const unitValInput   = document.getElementById('unit-val');
-  const unitResultBox  = document.getElementById('unit-result');
-  const unitSwapBtn    = document.getElementById('unit-swap-btn');
-
-  function populateUnitDropdowns() {
-    const cat = unitCategorySelect.value;
-    const catData = UNIT_DATA[cat];
-    const keys = Object.keys(catData.labels);
-    unitFromSelect.innerHTML = keys.map(k => `<option value="${k}">${catData.labels[k]}</option>`).join('');
-    unitToSelect.innerHTML   = keys.map(k => `<option value="${k}">${catData.labels[k]}</option>`).join('');
-    if (keys.length > 1) unitToSelect.selectedIndex = 1;
-    calculateUnit();
-  }
-
-  function calculateUnit() {
-    const cat  = unitCategorySelect.value;
-    const val  = parseFloat(unitValInput.value) || 0;
-    const from = unitFromSelect.value;
-    const to   = unitToSelect.value;
-    let res = 0;
-    if (cat === 'temperature') {
-      if (from === to) res = val;
-      else if (from === 'c' && to === 'f') res = (val * 9/5) + 32;
-      else if (from === 'c' && to === 'k') res = val + 273.15;
-      else if (from === 'f' && to === 'c') res = (val - 32) * 5/9;
-      else if (from === 'f' && to === 'k') res = (val - 32) * 5/9 + 273.15;
-      else if (from === 'k' && to === 'c') res = val - 273.15;
-      else if (from === 'k' && to === 'f') res = (val - 273.15) * 9/5 + 32;
-    } else {
-      res = (val * UNIT_DATA[cat].units[from]) / UNIT_DATA[cat].units[to];
-    }
-    unitResultBox.textContent = `${Number(res.toFixed(6))} ${to}`;
-  }
-
-  unitCategorySelect.addEventListener('change', populateUnitDropdowns);
-  unitFromSelect.addEventListener('change', calculateUnit);
-  unitToSelect.addEventListener('change', calculateUnit);
-  unitValInput.addEventListener('input', calculateUnit);
-  unitSwapBtn.addEventListener('click', () => {
-    [unitFromSelect.value, unitToSelect.value] = [unitToSelect.value, unitFromSelect.value];
-    calculateUnit();
-  });
-  populateUnitDropdowns();
-
-  // --- 2. Currency Converter ---
-  const currAmount = document.getElementById('curr-amount');
-  const currFrom   = document.getElementById('curr-from');
-  const currTo     = document.getElementById('curr-to');
-  const currResult = document.getElementById('curr-result');
-  const currStatus = document.getElementById('curr-status');
-  const currSwapBtn= document.getElementById('curr-swap-btn');
-
-  let exchangeRates = { USD: 1, EUR: 0.92, GBP: 0.78, INR: 83.2, PKR: 278.5, CAD: 1.36, AUD: 1.52, JPY: 155.4, AED: 3.67, SAR: 3.75 };
-
-  async function fetchRates() {
-    try {
-      const res  = await fetch('https://open.er-api.com/v6/latest/USD');
-      const data = await res.json();
-      if (data && data.rates) {
-        exchangeRates = data.rates;
-        currStatus.textContent = `1 USD = ${data.rates['EUR']} EUR | Updated UTC`;
-        showToast('Live Exchange Rates Loaded', 'success');
-      }
-    } catch {
-      currStatus.textContent = 'Using cached offline exchange rates';
-      showToast('Offline exchange rates loaded', 'info');
-    }
-    populateCurrencyDropdowns();
-  }
-
-  function populateCurrencyDropdowns() {
-    const currencies = Object.keys(exchangeRates).sort();
-    currFrom.innerHTML = currencies.map(c => `<option value="${c}">${c}</option>`).join('');
-    currTo.innerHTML   = currencies.map(c => `<option value="${c}">${c}</option>`).join('');
-    currFrom.value = 'USD';
-    currTo.value   = 'PKR';
-    calculateCurrency();
-  }
-
-  function calculateCurrency() {
-    const amt      = parseFloat(currAmount.value) || 0;
-    const fromRate = exchangeRates[currFrom.value] || 1;
-    const toRate   = exchangeRates[currTo.value]   || 1;
-    const res = (amt / fromRate) * toRate;
-    currResult.textContent = `${res.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currTo.value}`;
-  }
-
-  currAmount.addEventListener('input', calculateCurrency);
-  currFrom.addEventListener('change', calculateCurrency);
-  currTo.addEventListener('change', calculateCurrency);
-  currSwapBtn.addEventListener('click', () => {
-    [currFrom.value, currTo.value] = [currTo.value, currFrom.value];
-    calculateCurrency();
-  });
-  fetchRates();
-
-  // --- 3. BMI Calculator ---
-  const bmiUnitMetric    = document.getElementById('bmi-unit-metric');
-  const bmiUnitImperial  = document.getElementById('bmi-unit-imperial');
-  const bmiMetricInputs  = document.getElementById('bmi-metric-inputs');
-  const bmiImperialInputs= document.getElementById('bmi-imperial-inputs');
-  const bmiHeightCm = document.getElementById('bmi-height-cm');
-  const bmiWeightKg = document.getElementById('bmi-weight-kg');
-  const bmiHeightFt = document.getElementById('bmi-height-ft');
-  const bmiHeightIn = document.getElementById('bmi-height-in');
-  const bmiWeightLb = document.getElementById('bmi-weight-lb');
-  const bmiScore    = document.getElementById('bmi-score');
-  const bmiCategory = document.getElementById('bmi-category');
-  const bmiHealthyRange = document.getElementById('bmi-healthy-range');
-  let isMetric = true;
-
-  bmiUnitMetric.addEventListener('click', () => {
-    isMetric = true;
-    bmiUnitMetric.classList.add('active'); bmiUnitImperial.classList.remove('active');
-    bmiMetricInputs.classList.remove('hidden'); bmiImperialInputs.classList.add('hidden');
-    calculateBMI();
-  });
-  bmiUnitImperial.addEventListener('click', () => {
-    isMetric = false;
-    bmiUnitImperial.classList.add('active'); bmiUnitMetric.classList.remove('active');
-    bmiImperialInputs.classList.remove('hidden'); bmiMetricInputs.classList.add('hidden');
-    calculateBMI();
-  });
-
-  function calculateBMI() {
-    let hMeters = 0, wKg = 0;
-    if (isMetric) {
-      hMeters = (parseFloat(bmiHeightCm.value) || 0) / 100;
-      wKg = parseFloat(bmiWeightKg.value) || 0;
-    } else {
-      const totalInches = ((parseFloat(bmiHeightFt.value) || 0) * 12) + (parseFloat(bmiHeightIn.value) || 0);
-      hMeters = totalInches * 0.0254;
-      wKg = (parseFloat(bmiWeightLb.value) || 0) * 0.453592;
-    }
-    if (hMeters > 0 && wKg > 0) {
-      const bmi = wKg / (hMeters * hMeters);
-      bmiScore.textContent = bmi.toFixed(1);
-      bmiHealthyRange.textContent = `Healthy Weight Range: ${(18.5*(hMeters*hMeters)).toFixed(1)} kg – ${(24.9*(hMeters*hMeters)).toFixed(1)} kg`;
-      if (bmi < 18.5) { bmiCategory.textContent = 'Underweight'; bmiCategory.style.background = 'rgba(56,189,248,0.2)'; bmiCategory.style.color = '#38bdf8'; }
-      else if (bmi < 25) { bmiCategory.textContent = 'Normal Weight'; bmiCategory.style.background = 'rgba(52,211,153,0.2)'; bmiCategory.style.color = '#34d399'; }
-      else if (bmi < 30) { bmiCategory.textContent = 'Overweight'; bmiCategory.style.background = 'rgba(251,191,36,0.2)'; bmiCategory.style.color = '#fbbf24'; }
-      else { bmiCategory.textContent = 'Obese'; bmiCategory.style.background = 'rgba(248,113,113,0.2)'; bmiCategory.style.color = '#f87171'; }
-    } else { bmiScore.textContent = '--'; bmiCategory.textContent = 'Invalid Input'; }
-  }
-  [bmiHeightCm, bmiWeightKg, bmiHeightFt, bmiHeightIn, bmiWeightLb].forEach(i => i.addEventListener('input', calculateBMI));
-  calculateBMI();
-
-  // --- 4. Age Calculator ---
-  const ageDob      = document.getElementById('age-dob');
-  const agePrimary  = document.getElementById('age-primary');
-  const ageMonths   = document.getElementById('age-months');
-  const ageWeeks    = document.getElementById('age-weeks');
-  const ageDays     = document.getElementById('age-days');
-  const ageNextBday = document.getElementById('age-next-bday');
-  ageDob.value = '2000-01-01';
-
-  function calculateAge() {
-    if (!ageDob.value) return;
-    const birth = new Date(ageDob.value + 'T00:00:00');
-    const today = new Date(); today.setHours(0,0,0,0);
-    if (birth > today) { agePrimary.textContent = 'DOB cannot be in future'; showToast('Date of birth cannot be in the future', 'error'); return; }
-    let years = today.getFullYear() - birth.getFullYear();
-    let months = today.getMonth() - birth.getMonth();
-    let days = today.getDate() - birth.getDate();
-    if (days < 0) { months--; days += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); }
-    if (months < 0) { years--; months += 12; }
-    agePrimary.textContent = `${years} Years, ${months} Months, ${days} Days`;
-    const totalTime  = today - birth;
-    const totalDays  = Math.floor(totalTime / 86400000);
-    ageMonths.textContent = ((years*12)+months).toLocaleString();
-    ageWeeks.textContent  = Math.floor(totalDays/7).toLocaleString();
-    ageDays.textContent   = totalDays.toLocaleString();
-    let nextBday = new Date(today.getFullYear(), birth.getMonth(), birth.getDate());
-    if (nextBday < today) nextBday.setFullYear(today.getFullYear()+1);
-    const bdayDiff = Math.ceil((nextBday - today) / 86400000);
-    ageNextBday.innerHTML = `🎉 Next Birthday in: <span>${Math.floor(bdayDiff/30.4375)} Months, ${Math.round(bdayDiff%30.4375)} Days</span> (${bdayDiff} Days)`;
-  }
-  ageDob.addEventListener('change', calculateAge);
-  calculateAge();
-
-  // --- 5. Date Difference ---
-  const dateStart  = document.getElementById('date-start');
-  const dateEnd    = document.getElementById('date-end');
-  const datePrimary= document.getElementById('date-primary');
-  const dateYears  = document.getElementById('date-years');
-  const dateMonths = document.getElementById('date-months');
-  const dateWeeks  = document.getElementById('date-weeks');
-  const dateDays   = document.getElementById('date-days');
-  const dateHours  = document.getElementById('date-hours');
-  const dateMins   = document.getElementById('date-mins');
-  const todayStr = new Date().toISOString().split('T')[0];
-  dateStart.value = todayStr; dateEnd.value = todayStr;
-
-  function calculateDateDiff() {
-    if (!dateStart.value || !dateEnd.value) return;
-    const d1 = new Date(dateStart.value + 'T00:00:00');
-    const d2 = new Date(dateEnd.value   + 'T00:00:00');
-    const diffTime = Math.abs(d2 - d1);
-    const diffDays = Math.floor(diffTime / 86400000);
-    let start = d1 < d2 ? d1 : d2, end = d1 < d2 ? d2 : d1;
-    let y = end.getFullYear() - start.getFullYear();
-    let m = end.getMonth() - start.getMonth();
-    if (m < 0) { y--; m += 12; }
-    datePrimary.textContent = `${diffDays.toLocaleString()} Total Days Difference`;
-    dateYears.textContent  = y;
-    dateMonths.textContent = m;
-    dateWeeks.textContent  = Math.floor(diffDays/7).toLocaleString();
-    dateDays.textContent   = diffDays.toLocaleString();
-    dateHours.textContent  = (diffDays*24).toLocaleString();
-    dateMins.textContent   = (diffDays*1440).toLocaleString();
-  }
-  dateStart.addEventListener('change', calculateDateDiff);
-  dateEnd.addEventListener('change', calculateDateDiff);
-  calculateDateDiff();
-
-  // --- 6. Loan / EMI ---
-  const loanAmount = document.getElementById('loan-amount');
-  const loanRate   = document.getElementById('loan-rate');
-  const loanTenure = document.getElementById('loan-tenure');
-  const loanEmi    = document.getElementById('loan-emi');
-  const loanInterest= document.getElementById('loan-interest');
-  const loanTotal  = document.getElementById('loan-total');
-
-  function calculateLoan() {
-    const P = parseFloat(loanAmount.value) || 0;
-    const r = (parseFloat(loanRate.value) || 0) / 12 / 100;
-    const n = (parseFloat(loanTenure.value) || 0) * 12;
+  // Mortgage
+  const mp = document.getElementById('mort-price'), md = document.getElementById('mort-down'), mr = document.getElementById('mort-rate'), my = document.getElementById('mort-years'), mEmi = document.getElementById('mort-emi');
+  function calcMort() {
+    if (!mp) return;
+    const P = (parseFloat(mp.value)||0) - (parseFloat(md.value)||0);
+    const r = (parseFloat(mr.value)||0)/12/100, n = (parseFloat(my.value)||0)*12;
     if (P > 0 && r > 0 && n > 0) {
       const emi = (P * r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
-      const total = emi * n;
-      loanEmi.textContent      = `$${emi.toFixed(2)}`;
-      loanInterest.textContent = `$${(total-P).toFixed(2)}`;
-      loanTotal.textContent    = `$${total.toFixed(2)}`;
+      mEmi.textContent = `$${emi.toFixed(2)}`;
     }
   }
-  loanAmount.addEventListener('input', calculateLoan);
-  loanRate.addEventListener('input', calculateLoan);
-  loanTenure.addEventListener('input', calculateLoan);
-  calculateLoan();
+  [mp, md, mr, my].forEach(el => el && el.addEventListener('input', calcMort)); calcMort();
 
-  // --- 7. Tip Calculator ---
-  const tipBill    = document.getElementById('tip-bill');
-  const tipPercent = document.getElementById('tip-percent');
-  const tipPeople  = document.getElementById('tip-people');
-  const tipPerPerson   = document.getElementById('tip-per-person');
-  const tipTotalAmount = document.getElementById('tip-total-amount');
-  const tipTotalBill   = document.getElementById('tip-total-bill');
-
-  function calculateTip() {
-    const bill   = parseFloat(tipBill.value)    || 0;
-    const pct    = parseFloat(tipPercent.value)  || 0;
-    const people = parseInt(tipPeople.value)     || 1;
-    const totalTip  = (bill * pct) / 100;
-    const grandTotal = bill + totalTip;
-    tipPerPerson.textContent   = `$${(grandTotal/people).toFixed(2)}`;
-    tipTotalAmount.textContent = `$${totalTip.toFixed(2)}`;
-    tipTotalBill.textContent   = `$${grandTotal.toFixed(2)}`;
+  // Compound Interest
+  const cip = document.getElementById('ci-principal'), cir = document.getElementById('ci-rate'), ciy = document.getElementById('ci-years'), ciFut = document.getElementById('ci-future'), ciInt = document.getElementById('ci-interest');
+  function calcCI() {
+    if (!cip) return;
+    const P = parseFloat(cip.value)||0, r = (parseFloat(cir.value)||0)/100, t = parseFloat(ciy.value)||0;
+    const A = P * Math.pow(1 + r, t);
+    ciFut.textContent = `$${A.toFixed(2)}`;
+    ciInt.textContent = `$${(A-P).toFixed(2)}`;
   }
-  tipBill.addEventListener('input', calculateTip);
-  tipPercent.addEventListener('input', calculateTip);
-  tipPeople.addEventListener('input', calculateTip);
-  calculateTip();
+  [cip, cir, ciy].forEach(el => el && el.addEventListener('input', calcCI)); calcCI();
 
-  // --- 8. Discount Calculator ---
-  const discPrice   = document.getElementById('disc-price');
-  const discPercent = document.getElementById('disc-percent');
-  const discFinal   = document.getElementById('disc-final');
-  const discSaved   = document.getElementById('disc-saved');
+  // Simple Interest
+  const sip = document.getElementById('si-principal'), sir = document.getElementById('si-rate'), siy = document.getElementById('si-years'), siRes = document.getElementById('si-res');
+  function calcSI() { if (sip) siRes.textContent = `$${(((parseFloat(sip.value)||0)*(parseFloat(sir.value)||0)*(parseFloat(siy.value)||0))/100).toFixed(2)}`; }
+  [sip, sir, siy].forEach(el => el && el.addEventListener('input', calcSI)); calcSI();
 
-  function calculateDiscount() {
-    const price = parseFloat(discPrice.value)   || 0;
-    const pct   = parseFloat(discPercent.value) || 0;
-    const saved = (price * pct) / 100;
-    discFinal.textContent = `$${(price-saved).toFixed(2)}`;
-    discSaved.textContent = `$${saved.toFixed(2)}`;
+  // Savings
+  const sm = document.getElementById('sav-monthly'), sr = document.getElementById('sav-rate'), sy = document.getElementById('sav-years'), sTot = document.getElementById('sav-total');
+  function calcSav() {
+    if (!sm) return;
+    const PMT = parseFloat(sm.value)||0, r = (parseFloat(sr.value)||0)/12/100, n = (parseFloat(sy.value)||0)*12;
+    const FV = PMT * ((Math.pow(1+r, n) - 1) / r);
+    sTot.textContent = `$${FV.toFixed(2)}`;
   }
-  discPrice.addEventListener('input', calculateDiscount);
-  discPercent.addEventListener('input', calculateDiscount);
-  calculateDiscount();
+  [sm, sr, sy].forEach(el => el && el.addEventListener('input', calcSav)); calcSav();
 
-  // Initial render
+  // Investment CAGR
+  const ii = document.getElementById('inv-init'), ifin = document.getElementById('inv-final'), iy = document.getElementById('inv-years'), icagr = document.getElementById('inv-cagr');
+  function calcCAGR() {
+    if (!ii) return;
+    const start = parseFloat(ii.value)||1, end = parseFloat(ifin.value)||1, t = parseFloat(iy.value)||1;
+    const cagr = (Math.pow(end/start, 1/t) - 1) * 100;
+    icagr.textContent = `${cagr.toFixed(2)}%`;
+  }
+  [ii, ifin, iy].forEach(el => el && el.addEventListener('input', calcCAGR)); calcCAGR();
+
+  // Inflation
+  const infA = document.getElementById('inf-amount'), infR = document.getElementById('inf-rate'), infY = document.getElementById('inf-years'), infRes = document.getElementById('inf-res');
+  function calcInf() {
+    if (!infA) return;
+    const P = parseFloat(infA.value)||0, r = (parseFloat(infR.value)||0)/100, t = parseFloat(infY.value)||0;
+    infRes.textContent = `$${(P * Math.pow(1+r, t)).toFixed(2)}`;
+  }
+  [infA, infR, infY].forEach(el => el && el.addEventListener('input', calcInf)); calcInf();
+
+  // Unit Converter Setup
+  const uCat = document.getElementById('unit-category'), uFrom = document.getElementById('unit-from'), uTo = document.getElementById('unit-to'), uVal = document.getElementById('unit-val'), uRes = document.getElementById('unit-result');
+  function popUnits() {
+    if (!uCat) return;
+    const cat = uCat.value, keys = Object.keys(UNIT_DATA[cat].labels);
+    uFrom.innerHTML = keys.map(k=>`<option value="${k}">${UNIT_DATA[cat].labels[k]}</option>`).join('');
+    uTo.innerHTML = keys.map(k=>`<option value="${k}">${UNIT_DATA[cat].labels[k]}</option>`).join('');
+    if (keys.length > 1) uTo.selectedIndex = 1;
+    calcUnit();
+  }
+  function calcUnit() {
+    if (!uVal) return;
+    const cat = uCat.value, val = parseFloat(uVal.value)||0, from = uFrom.value, to = uTo.value;
+    let res = (val * UNIT_DATA[cat].units[from]) / UNIT_DATA[cat].units[to];
+    uRes.textContent = `${Number(res.toFixed(6))} ${to}`;
+  }
+  if (uCat) { uCat.addEventListener('change', popUnits); uFrom.addEventListener('change', calcUnit); uTo.addEventListener('change', calcUnit); uVal.addEventListener('input', calcUnit); popUnits(); }
+
+  // Currency Converter Setup
+  const currAmt = document.getElementById('curr-amount'), currF = document.getElementById('curr-from'), currT = document.getElementById('curr-to'), currRes = document.getElementById('curr-result');
+  let rates = { USD: 1, EUR: 0.92, GBP: 0.78, INR: 83.2, PKR: 278.5, CAD: 1.36 };
+  async function fetchCurr() {
+    try {
+      const res = await fetch('https://open.er-api.com/v6/latest/USD');
+      const data = await res.json();
+      if (data && data.rates) rates = data.rates;
+    } catch {}
+    if (currF) {
+      const keys = Object.keys(rates).sort();
+      currF.innerHTML = keys.map(k=>`<option value="${k}">${k}</option>`).join('');
+      currT.innerHTML = keys.map(k=>`<option value="${k}">${k}</option>`).join('');
+      currF.value = 'USD'; currT.value = 'EUR';
+      calcCurr();
+    }
+  }
+  function calcCurr() {
+    if (!currAmt) return;
+    const val = parseFloat(currAmt.value)||0, fromR = rates[currF.value]||1, toR = rates[currT.value]||1;
+    currRes.textContent = `${((val/fromR)*toR).toFixed(2)} ${currT.value}`;
+  }
+  if (currAmt) { currAmt.addEventListener('input', calcCurr); currF.addEventListener('change', calcCurr); currT.addEventListener('change', calcCurr); fetchCurr(); }
+
   updateCalcDisplay();
 });
