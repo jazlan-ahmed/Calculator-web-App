@@ -79,13 +79,62 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  position: relative;
+  overflow-x: hidden;
   transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Minimal Grid Texture & Ambient Orbs */
+.bg-texture-grid {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="light"] .bg-texture-grid {
+  background-image: radial-gradient(rgba(99, 102, 241, 0.15) 1px, transparent 1px);
+}
+
+.bg-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  animation: floatOrb 12s infinite alternate ease-in-out;
+}
+
+.orb-1 {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent 70%);
+  top: -60px;
+  left: -60px;
+}
+
+.orb-2 {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.35), transparent 70%);
+  bottom: -80px;
+  right: -80px;
+  animation-delay: -6s;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, 30px) scale(1.1); }
 }
 
 .app-container {
   width: 100%;
   max-width: 440px;
   position: relative;
+  z-index: 1;
 }
 
 /* Header */
