@@ -93,8 +93,31 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   padding: 0 4px;
+}
+
+.welcome-banner {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.welcome-banner h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+}
+
+.app-footer {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.app-footer p {
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  font-weight: 400;
 }
 
 .brand {
