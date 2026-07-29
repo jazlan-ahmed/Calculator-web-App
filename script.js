@@ -152,9 +152,284 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (sidebarToggle) sidebarToggle.addEventListener('click', openMobileSidebar);
 
+// --- Tool Usage Guides Data ---
+const TOOL_GUIDES = {
+  calc: {
+    steps: ['Enter numbers using the keypad or keyboard.', 'Use arithmetic (+, -, ×, ÷) and scientific (sin, cos, log, √, x²) operators.', 'Press "=" or Enter to evaluate the expression.', 'Access memory functions (MC, MR, M+, M-) to store key values.'],
+    formula: 'Math Expression Evaluation',
+    note: 'Switch between DEG (Degrees) and RAD (Radians) for trigonometric calculations.'
+  },
+  percentage: {
+    steps: ['Enter the percentage rate (X).', 'Enter the base total amount (Y).', 'The result instantly shows what X% of Y equals.'],
+    formula: 'Result = (X / 100) × Y',
+    note: 'Percentage calculations are useful for estimating taxes, tips, and growth.'
+  },
+  average: {
+    steps: ['Enter a series of numbers separated by commas or spaces.', 'The calculator instantly computes the Mean, Median, Count, and Sum.'],
+    formula: 'Mean = Sum of All Values / Count of Values',
+    note: 'Median represents the middle value in a sorted dataset.'
+  },
+  ratio: {
+    steps: ['Enter the ratio terms A and B (A : B).', 'Enter term C.', 'The missing term D is calculated to solve A : B = C : D.'],
+    formula: 'D = (B × C) / A',
+    note: 'Useful for scaling dimensions, recipes, and resolution ratios.'
+  },
+  fraction: {
+    steps: ['Enter Numerator and Denominator for Fraction 1.', 'Select an operator (+, -, ×, ÷).', 'Enter Numerator and Denominator for Fraction 2.', 'View simplified fraction and decimal output.'],
+    formula: 'A/B ± C/D = (AD ± BC) / BD',
+    note: 'Denominators cannot be zero.'
+  },
+  lcmhcf: {
+    steps: ['Enter two positive integers.', 'View the Least Common Multiple (LCM) and Highest Common Factor (HCF / GCD).'],
+    formula: 'LCM(a, b) = (a × b) / HCF(a, b)',
+    note: 'HCF is the largest factor dividing both numbers.'
+  },
+  prime: {
+    steps: ['Enter any positive integer.', 'Check instantly whether the number is Prime or Composite.'],
+    formula: 'Divisibility check from 2 up to √N',
+    note: 'Prime numbers have exactly two distinct positive divisors: 1 and themselves.'
+  },
+  rng: {
+    steps: ['Specify the minimum and maximum boundaries.', 'Click Generate to produce a random integer within range.'],
+    formula: 'Random = floor(Math.random() × (Max - Min + 1)) + Min',
+    note: 'Useful for games, sampling, and decision making.'
+  },
+  loan: {
+    steps: ['Enter the principal loan amount.', 'Enter the annual interest rate (%).', 'Enter loan tenure in years.', 'Review monthly EMI, total interest, and total payable amount.'],
+    formula: 'EMI = [P × r × (1+r)ⁿ] / [(1+r)ⁿ - 1]',
+    note: 'Interest rates are annual unless specified otherwise.'
+  },
+  mortgage: {
+    steps: ['Enter total home purchase price.', 'Enter down payment amount.', 'Enter interest rate and loan term.', 'View your estimated monthly mortgage payment.'],
+    formula: 'Loan Amount = Home Price - Down Payment',
+    note: 'Does not include property taxes or insurance.'
+  },
+  compound: {
+    steps: ['Enter starting principal amount.', 'Enter annual interest rate.', 'Enter duration in years.', 'View total future value and accumulated interest.'],
+    formula: 'A = P × (1 + r / n)^(n × t)',
+    note: 'Compounding accelerates growth significantly over long periods.'
+  },
+  'simple-interest': {
+    steps: ['Enter principal amount.', 'Enter annual interest rate.', 'Enter time period in years.', 'View total interest accrued.'],
+    formula: 'Interest = (P × R × T) / 100',
+    note: 'Simple interest does not compound accumulated interest.'
+  },
+  savings: {
+    steps: ['Enter your planned monthly contribution.', 'Enter expected annual return rate.', 'Enter investment period in years.', 'View total accumulated savings.'],
+    formula: 'FV = PMT × [((1+r)ⁿ - 1) / r]',
+    note: 'Assumes monthly compounding contributions.'
+  },
+  investment: {
+    steps: ['Enter initial investment value.', 'Enter expected final value.', 'Enter holding duration in years.', 'View Compound Annual Growth Rate (CAGR).'],
+    formula: 'CAGR = (Final / Initial)^(1 / Years) - 1',
+    note: 'CAGR measures smooth annual rate of return over time.'
+  },
+  retirement: {
+    steps: ['Enter current age and target retirement age.', 'Enter current savings and monthly contribution.', 'View projected nest egg at retirement age.'],
+    formula: 'Projected Value = Initial Grow + Annuity Future Value',
+    note: 'Consider adjusting for inflation for long-term planning.'
+  },
+  inflation: {
+    steps: ['Enter current price of goods/services.', 'Enter estimated annual inflation rate.', 'Enter years into the future.', 'View expected future cost.'],
+    formula: 'Future Cost = Current × (1 + rate)^years',
+    note: 'Inflation erodes purchasing power over time.'
+  },
+  creditcard: {
+    steps: ['Enter total card balance.', 'Enter card APR % interest rate.', 'Enter planned monthly payment.', 'View total months required to pay off debt.'],
+    formula: 'Iterative Monthly Balance Reduction',
+    note: 'Paying above minimum reduces total interest significantly.'
+  },
+  salestax: {
+    steps: ['Enter base price before tax.', 'Enter local sales tax rate (%).', 'View total price including sales tax.'],
+    formula: 'Tax Amount = Price × (Rate / 100)',
+    note: 'Tax rates vary by region and product type.'
+  },
+  vatgst: {
+    steps: ['Enter net amount.', 'Enter applicable VAT/GST percentage rate.', 'View gross amount inclusive of tax.'],
+    formula: 'Gross = Net × (1 + VAT Rate / 100)',
+    note: 'VAT/GST is added at point of sale.'
+  },
+  tip: {
+    steps: ['Enter total bill amount.', 'Enter tip percentage (e.g. 15%, 18%, 20%).', 'Enter number of people sharing the bill.', 'View per-person cost and tip breakdown.'],
+    formula: 'Total = Bill + (Bill × Tip%)',
+    note: 'Splitting bills ensures equal contributions.'
+  },
+  discount: {
+    steps: ['Enter original item price.', 'Enter discount percentage.', 'View final discounted price and money saved.'],
+    formula: 'Final Price = Original × (1 - Discount%)',
+    note: 'Double-check store promotional conditions.'
+  },
+  profitmargin: {
+    steps: ['Enter item cost price.', 'Enter selling price.', 'View profit margin percentage and net profit.'],
+    formula: 'Margin % = ((Selling - Cost) / Selling) × 100',
+    note: 'Profit margin is calculated on selling price.'
+  },
+  profitloss: {
+    steps: ['Enter total revenue/income.', 'Enter total expenses.', 'View net profit or loss statement.'],
+    formula: 'Net = Income - Expenses',
+    note: 'Positive values represent net profit.'
+  },
+  commission: {
+    steps: ['Enter total sales volume.', 'Enter commission percentage.', 'View total commission payout.'],
+    formula: 'Commission = Sales × (Rate / 100)',
+    note: 'Commonly used for sales & real estate calculations.'
+  },
+  salary: {
+    steps: ['Enter total annual gross salary.', 'View estimated monthly and weekly earnings.'],
+    formula: 'Monthly = Annual / 12 | Weekly = Annual / 52',
+    note: 'Gross estimates before tax deductions.'
+  },
+  hourly: {
+    steps: ['Enter hourly pay rate.', 'Enter expected hours worked per week.', 'View estimated annual gross income.'],
+    formula: 'Annual = Hourly Rate × Hours/Wk × 52',
+    note: 'Based on 52 working weeks per year.'
+  },
+  priceunit: {
+    steps: ['Enter total package price.', 'Enter quantity or unit count.', 'View cost per single unit.'],
+    formula: 'Unit Price = Total Price / Quantity',
+    note: 'Helps identify the best grocery deal.'
+  },
+  bmi: {
+    steps: ['Select Metric (cm, kg) or Imperial (ft, in, lb).', 'Enter your height and weight.', 'View your BMI score and health category.', 'Compare result with the healthy weight range.'],
+    formula: 'BMI = Weight (kg) / [Height (m)]²',
+    note: 'Healthy BMI ranges between 18.5 and 24.9.'
+  },
+  age: {
+    steps: ['Select your date of birth.', 'View your exact age in years, months, and days.', 'Check countdown to your next birthday.'],
+    formula: 'Calendar Date Math (Today - Birthdate)',
+    note: 'Accounts for leap years and month length variations.'
+  },
+  calorie: {
+    steps: ['Enter age, gender, height, and weight.', 'View recommended daily calorie intake for maintenance.'],
+    formula: 'Mifflin-St Jeor Equation × Activity Multiplier',
+    note: 'Adjust calories downward for weight loss or upward for gain.'
+  },
+  bmr: {
+    steps: ['Enter age, height, and weight.', 'View Basal Metabolic Rate (calories burned at rest).'],
+    formula: 'BMR = 10W + 6.25H - 5A + S',
+    note: 'BMR excludes calories burned from daily movement.'
+  },
+  bodyfat: {
+    steps: ['Enter waist, neck, and height measurements.', 'View estimated body fat percentage.'],
+    formula: 'U.S. Navy Circumference Method',
+    note: 'Ensure tape measure is snug but not compressing skin.'
+  },
+  idealweight: {
+    steps: ['Enter height in centimeters.', 'View recommended ideal body weight range.'],
+    formula: 'Devine & Hamwi Medical Formula',
+    note: 'Ideal weight varies by frame size and muscle mass.'
+  },
+  water: {
+    steps: ['Enter your body weight in kilograms.', 'View recommended daily hydration volume.'],
+    formula: 'Daily Water (L) = Weight (kg) × 0.035',
+    note: 'Increase water intake during intense exercise or warm climate.'
+  },
+  fuelcost: {
+    steps: ['Enter total travel distance.', 'Enter vehicle fuel efficiency (km/L).', 'Enter fuel price per liter.', 'View total trip fuel cost.'],
+    formula: 'Cost = (Distance / Efficiency) × Price',
+    note: 'Helps budget road trip expenses.'
+  },
+  fuelconsumption: {
+    steps: ['Enter distance traveled in km.', 'Enter total fuel consumed in liters.', 'View L/100km and km/L ratings.'],
+    formula: 'L/100km = (Liters / Distance) × 100',
+    note: 'Lower L/100km indicates better fuel efficiency.'
+  },
+  gpa: {
+    steps: ['Enter total earned grade points.', 'Enter total attempted credit hours.', 'View semester GPA on a 4.0 scale.'],
+    formula: 'GPA = Total Points / Total Credits',
+    note: 'Standard 4.0 academic scale.'
+  },
+  cgpa: {
+    steps: ['Enter all semester GPAs separated by commas.', 'View Cumulative GPA.'],
+    formula: 'CGPA = Sum of GPAs / Total Semesters',
+    note: 'Represents overall academic performance.'
+  },
+  date: {
+    steps: ['Select Start Date and End Date.', 'View exact day count, months, and year difference.'],
+    formula: 'Absolute Difference between Epoch Timestamps',
+    note: 'Useful for contract timelines and project planning.'
+  },
+  duration: {
+    steps: ['Select start time and end time.', 'View elapsed hours and minutes.'],
+    formula: 'Elapsed Time = End Time - Start Time',
+    note: 'Useful for tracking shift work hours.'
+  },
+  countdown: {
+    steps: ['Select future target date & time.', 'View live countdown timer.'],
+    formula: 'Remaining = Target Timestamp - Current Timestamp',
+    note: 'Great for tracking events and deadlines.'
+  },
+  timezone: {
+    steps: ['Enter local time.', 'Select origin and destination UTC offsets.', 'View converted time.'],
+    formula: 'Target Time = Local + (To Offset - From Offset)',
+    note: 'UTC offset ranges from -12 to +14.'
+  },
+  unit: {
+    steps: ['Select unit category (Length, Weight, Temp, Speed, Area).', 'Enter value to convert.', 'Select input and output units.', 'View converted result instantly.'],
+    formula: 'Base Unit Dimensional Conversion Factor',
+    note: 'Use swap button (⇄) to reverse units quickly.'
+  },
+  currency: {
+    steps: ['Enter monetary amount.', 'Select origin and target currency codes.', 'View live converted amount.'],
+    formula: 'Converted = Amount × (Target Rate / Origin Rate)',
+    note: 'Rates are updated live via ExchangeRate-API.'
+  },
+  datastorage: {
+    steps: ['Enter digital storage value.', 'Select units (KB, MB, GB, TB).', 'View equivalent storage size.'],
+    formula: '1 GB = 1024 MB | 1 MB = 1024 KB',
+    note: 'Binary 1024 conversion standard.'
+  },
+  volume: {
+    steps: ['Enter volume amount.', 'Select units (Liters, Milliliters, Gallons).', 'View converted volume.'],
+    formula: '1 Liter = 1000 ml = 0.264 Gallons',
+    note: 'Standard metric & US customary conversion.'
+  },
+  pressure: {
+    steps: ['Enter pressure measurement.', 'Select units (Bar, PSI, Pascal).', 'View pressure result.'],
+    formula: '1 Bar = 14.5038 PSI = 100,000 Pa',
+    note: 'Commonly used for tire pressure and engineering.'
+  },
+  energy: {
+    steps: ['Enter energy value.', 'Select units (KiloCalorie, Joule, KWh).', 'View converted energy.'],
+    formula: '1 kcal = 4184 Joules = 0.001162 KWh',
+    note: 'Used in physics and nutritional science.'
+  },
+  cooking: {
+    steps: ['Enter recipe measurement value.', 'Select units (Cups, Tablespoons, Teaspoons).', 'View converted cooking measurement.'],
+    formula: '1 Cup = 16 tbsp = 48 tsp',
+    note: 'Essential kitchen conversion guide.'
+  }
+};
+
   // --- Navigation & View Switcher ---
   const navItems = document.querySelectorAll('.nav-item');
   const toolViews = document.querySelectorAll('.tool-view');
+
+  function renderGuide(toolKey) {
+    const guideData = TOOL_GUIDES[toolKey];
+    const stepsList = document.getElementById('guide-steps');
+    const formulaBox = document.getElementById('guide-formula-box');
+    const formulaText = document.getElementById('guide-formula-text');
+    const noteBox = document.getElementById('guide-note-box');
+    const noteText = document.getElementById('guide-note-text');
+
+    if (!guideData || !stepsList) return;
+
+    stepsList.innerHTML = guideData.steps.map(s => `<li>${s}</li>`).join('');
+    if (guideData.formula) {
+      formulaText.textContent = guideData.formula;
+      formulaBox.classList.remove('hidden');
+    } else {
+      formulaBox.classList.add('hidden');
+    }
+
+    if (guideData.note) {
+      noteText.textContent = guideData.note;
+      noteBox.classList.remove('hidden');
+    } else {
+      noteBox.classList.add('hidden');
+    }
+  }
 
   function switchView(targetView) {
     navItems.forEach(n => n.classList.remove('active'));
@@ -166,6 +441,8 @@ document.addEventListener('DOMContentLoaded', () => {
       activeView.classList.add('active');
       viewTitle.textContent = activeNav.querySelector('.nav-label').textContent;
       localStorage.setItem('calc_last_tool', targetView);
+      renderGuide(targetView);
+
       if (targetView === 'calc') {
         modeToggleBtn.classList.remove('hidden');
         document.getElementById('toggle-history-btn').classList.remove('hidden');
