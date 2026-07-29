@@ -187,22 +187,22 @@
         <div class="tool-view" id="view-percentage">
           <div class="tool-form">
             <div class="form-group"><label>What is X % of Y?</label></div>
-            <div class="form-group"><label>Percentage (%)</label><input type="number" id="pct-x" class="custom-input" value="15"></div>
-            <div class="form-group"><label>Total Amount (Y)</label><input type="number" id="pct-y" class="custom-input" value="200"></div>
-            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="pct-res">$30.00</div></div>
+            <div class="form-group"><label>Percentage (%)</label><input type="number" id="pct-x" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Total Amount (Y)</label><input type="number" id="pct-y" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="pct-res">$0.00</div></div>
           </div>
         </div>
 
         <!-- 3. Average Calc -->
         <div class="tool-view" id="view-average">
           <div class="tool-form">
-            <div class="form-group"><label>Enter numbers separated by commas or spaces</label><input type="text" id="avg-input" class="custom-input" value="10, 20, 30, 40, 50"></div>
+            <div class="form-group"><label>Enter numbers separated by commas or spaces</label><input type="text" id="avg-input" class="custom-input" placeholder="e.g. 10, 20, 30"></div>
             <div class="multi-result-card">
-              <div class="metric-item"><span class="m-val" id="avg-mean">30</span><span class="m-lbl">Mean (Average)</span></div>
+              <div class="metric-item"><span class="m-val" id="avg-mean">0</span><span class="m-lbl">Mean (Average)</span></div>
               <div class="metrics-grid col-3">
-                <div class="metric-item"><span class="m-val" id="avg-count">5</span><span class="m-lbl">Count</span></div>
-                <div class="metric-item"><span class="m-val" id="avg-sum">150</span><span class="m-lbl">Sum</span></div>
-                <div class="metric-item"><span class="m-val" id="avg-median">30</span><span class="m-lbl">Median</span></div>
+                <div class="metric-item"><span class="m-val" id="avg-count">0</span><span class="m-lbl">Count</span></div>
+                <div class="metric-item"><span class="m-val" id="avg-sum">0</span><span class="m-lbl">Sum</span></div>
+                <div class="metric-item"><span class="m-val" id="avg-median">0</span><span class="m-lbl">Median</span></div>
               </div>
             </div>
           </div>
@@ -213,16 +213,16 @@
           <div class="tool-form">
             <div class="form-group"><label>Solve Ratio A : B = C : D</label></div>
             <div class="converter-row">
-              <input type="number" id="ratio-a" class="custom-input" value="16">
+              <input type="number" id="ratio-a" class="custom-input" placeholder="A">
               <span>:</span>
-              <input type="number" id="ratio-b" class="custom-input" value="9">
+              <input type="number" id="ratio-b" class="custom-input" placeholder="B">
             </div>
             <div class="converter-row">
-              <input type="number" id="ratio-c" class="custom-input" value="1920">
+              <input type="number" id="ratio-c" class="custom-input" placeholder="C">
               <span>:</span>
-              <input type="number" id="ratio-d" class="custom-input" value="1080" placeholder="Result D">
+              <input type="number" id="ratio-d" class="custom-input" placeholder="Result D">
             </div>
-            <div class="result-card"><div class="result-label">Calculated Value (D)</div><div class="result-value" id="ratio-res">1080</div></div>
+            <div class="result-card"><div class="result-label">Calculated Value (D)</div><div class="result-value" id="ratio-res">0</div></div>
           </div>
         </div>
 
@@ -230,22 +230,22 @@
         <div class="tool-view" id="view-fraction">
           <div class="tool-form">
             <div class="form-group"><label>Fraction 1 (A/B)</label></div>
-            <div class="converter-row"><input type="number" id="frac-n1" class="custom-input" value="1"><span>/</span><input type="number" id="frac-d1" class="custom-input" value="2"></div>
+            <div class="converter-row"><input type="number" id="frac-n1" class="custom-input" placeholder="0"><span>/</span><input type="number" id="frac-d1" class="custom-input" placeholder="1"></div>
             <div class="form-group"><label>Operator</label><select id="frac-op" class="custom-select"><option value="+">+</option><option value="-">−</option><option value="*">×</option><option value="/">÷</option></select></div>
             <div class="form-group"><label>Fraction 2 (C/D)</label></div>
-            <div class="converter-row"><input type="number" id="frac-n2" class="custom-input" value="1"><span>/</span><input type="number" id="frac-d2" class="custom-input" value="4"></div>
-            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="frac-res">3/4 (0.75)</div></div>
+            <div class="converter-row"><input type="number" id="frac-n2" class="custom-input" placeholder="0"><span>/</span><input type="number" id="frac-d2" class="custom-input" placeholder="1"></div>
+            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="frac-res">0</div></div>
           </div>
         </div>
 
         <!-- 6. LCM & HCF -->
         <div class="tool-view" id="view-lcmhcf">
           <div class="tool-form">
-            <div class="form-group"><label>First Integer</label><input type="number" id="lh-num1" class="custom-input" value="24"></div>
-            <div class="form-group"><label>Second Integer</label><input type="number" id="lh-num2" class="custom-input" value="36"></div>
+            <div class="form-group"><label>First Integer</label><input type="number" id="lh-num1" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Second Integer</label><input type="number" id="lh-num2" class="custom-input" placeholder="0"></div>
             <div class="metrics-grid col-2">
-              <div class="metric-item"><span class="m-val" id="lcm-res">72</span><span class="m-lbl">LCM</span></div>
-              <div class="metric-item"><span class="m-val" id="hcf-res">12</span><span class="m-lbl">HCF / GCD</span></div>
+              <div class="metric-item"><span class="m-val" id="lcm-res">0</span><span class="m-lbl">LCM</span></div>
+              <div class="metric-item"><span class="m-val" id="hcf-res">0</span><span class="m-lbl">HCF / GCD</span></div>
             </div>
           </div>
         </div>
@@ -253,8 +253,8 @@
         <!-- 7. Prime Checker -->
         <div class="tool-view" id="view-prime">
           <div class="tool-form">
-            <div class="form-group"><label>Check Integer</label><input type="number" id="prime-num" class="custom-input" value="29"></div>
-            <div class="result-card"><div class="result-label">Status</div><div class="result-value" id="prime-res">29 is a PRIME number</div></div>
+            <div class="form-group"><label>Check Integer</label><input type="number" id="prime-num" class="custom-input" placeholder="Enter number..."></div>
+            <div class="result-card"><div class="result-label">Status</div><div class="result-value" id="prime-res">--</div></div>
           </div>
         </div>
 
@@ -264,21 +264,21 @@
             <div class="form-group"><label>Minimum Value</label><input type="number" id="rng-min" class="custom-input" value="1"></div>
             <div class="form-group"><label>Maximum Value</label><input type="number" id="rng-max" class="custom-input" value="100"></div>
             <button id="rng-generate-btn" class="sidebar-action-btn" style="justify-content:center; padding:14px;">🎲 Generate Random Number</button>
-            <div class="result-card"><div class="result-label">Generated Number</div><div class="result-value" id="rng-res">42</div></div>
+            <div class="result-card"><div class="result-label">Generated Number</div><div class="result-value" id="rng-res">--</div></div>
           </div>
         </div>
 
         <!-- 9. Loan / EMI -->
         <div class="tool-view" id="view-loan">
           <div class="tool-form">
-            <div class="form-group"><label>Loan Amount ($)</label><input type="number" id="loan-amount" class="custom-input" value="25000"></div>
-            <div class="form-group"><label>Interest Rate (% p.a.)</label><input type="number" id="loan-rate" class="custom-input" value="7.5" step="0.1"></div>
-            <div class="form-group"><label>Tenure (Years)</label><input type="number" id="loan-tenure" class="custom-input" value="5"></div>
+            <div class="form-group"><label>Loan Amount ($)</label><input type="number" id="loan-amount" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Interest Rate (% p.a.)</label><input type="number" id="loan-rate" class="custom-input" placeholder="0" step="0.1"></div>
+            <div class="form-group"><label>Tenure (Years)</label><input type="number" id="loan-tenure" class="custom-input" placeholder="0"></div>
             <div class="summary-card result-card">
-              <div class="summary-row"><span>Monthly EMI</span><strong id="loan-emi">$500.76</strong></div>
+              <div class="summary-row"><span>Monthly EMI</span><strong id="loan-emi">$0.00</strong></div>
               <div class="summary-divider"></div>
-              <div class="summary-row sub"><span>Total Interest:</span><span id="loan-interest">$5,045.60</span></div>
-              <div class="summary-row sub"><span>Total Payable:</span><span id="loan-total">$30,045.60</span></div>
+              <div class="summary-row sub"><span>Total Interest:</span><span id="loan-interest">$0.00</span></div>
+              <div class="summary-row sub"><span>Total Payable:</span><span id="loan-total">$0.00</span></div>
             </div>
           </div>
         </div>
@@ -286,24 +286,24 @@
         <!-- 10. Mortgage Calc -->
         <div class="tool-view" id="view-mortgage">
           <div class="tool-form">
-            <div class="form-group"><label>Home Price ($)</label><input type="number" id="mort-price" class="custom-input" value="300000"></div>
-            <div class="form-group"><label>Down Payment ($)</label><input type="number" id="mort-down" class="custom-input" value="60000"></div>
-            <div class="form-group"><label>Interest Rate (%)</label><input type="number" id="mort-rate" class="custom-input" value="6.5" step="0.1"></div>
-            <div class="form-group"><label>Loan Term (Years)</label><input type="number" id="mort-years" class="custom-input" value="30"></div>
-            <div class="result-card"><div class="result-label">Monthly Mortgage Payment</div><div class="result-value" id="mort-emi">$1,516.98</div></div>
+            <div class="form-group"><label>Home Price ($)</label><input type="number" id="mort-price" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Down Payment ($)</label><input type="number" id="mort-down" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Interest Rate (%)</label><input type="number" id="mort-rate" class="custom-input" placeholder="0" step="0.1"></div>
+            <div class="form-group"><label>Loan Term (Years)</label><input type="number" id="mort-years" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Monthly Mortgage Payment</div><div class="result-value" id="mort-emi">$0.00</div></div>
           </div>
         </div>
 
         <!-- 11. Compound Interest -->
         <div class="tool-view" id="view-compound">
           <div class="tool-form">
-            <div class="form-group"><label>Principal ($)</label><input type="number" id="ci-principal" class="custom-input" value="10000"></div>
-            <div class="form-group"><label>Annual Rate (%)</label><input type="number" id="ci-rate" class="custom-input" value="8" step="0.1"></div>
-            <div class="form-group"><label>Time (Years)</label><input type="number" id="ci-years" class="custom-input" value="10"></div>
+            <div class="form-group"><label>Principal ($)</label><input type="number" id="ci-principal" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Annual Rate (%)</label><input type="number" id="ci-rate" class="custom-input" placeholder="0" step="0.1"></div>
+            <div class="form-group"><label>Time (Years)</label><input type="number" id="ci-years" class="custom-input" placeholder="0"></div>
             <div class="summary-card result-card">
-              <div class="summary-row"><span>Future Value</span><strong id="ci-future">$21,589.25</strong></div>
+              <div class="summary-row"><span>Future Value</span><strong id="ci-future">$0.00</strong></div>
               <div class="summary-divider"></div>
-              <div class="summary-row sub"><span>Total Interest:</span><span id="ci-interest">$11,589.25</span></div>
+              <div class="summary-row sub"><span>Total Interest:</span><span id="ci-interest">$0.00</span></div>
             </div>
           </div>
         </div>
@@ -311,73 +311,73 @@
         <!-- 12. Simple Interest -->
         <div class="tool-view" id="view-simple-interest">
           <div class="tool-form">
-            <div class="form-group"><label>Principal ($)</label><input type="number" id="si-principal" class="custom-input" value="5000"></div>
-            <div class="form-group"><label>Interest Rate (% p.a.)</label><input type="number" id="si-rate" class="custom-input" value="5"></div>
-            <div class="form-group"><label>Time (Years)</label><input type="number" id="si-years" class="custom-input" value="3"></div>
-            <div class="result-card"><div class="result-label">Total Interest</div><div class="result-value" id="si-res">$750.00</div></div>
+            <div class="form-group"><label>Principal ($)</label><input type="number" id="si-principal" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Interest Rate (% p.a.)</label><input type="number" id="si-rate" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Time (Years)</label><input type="number" id="si-years" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Total Interest</div><div class="result-value" id="si-res">$0.00</div></div>
           </div>
         </div>
 
         <!-- 13. Savings Calc -->
         <div class="tool-view" id="view-savings">
           <div class="tool-form">
-            <div class="form-group"><label>Monthly Savings ($)</label><input type="number" id="sav-monthly" class="custom-input" value="300"></div>
-            <div class="form-group"><label>Annual Interest (%)</label><input type="number" id="sav-rate" class="custom-input" value="6"></div>
-            <div class="form-group"><label>Period (Years)</label><input type="number" id="sav-years" class="custom-input" value="10"></div>
-            <div class="result-card"><div class="result-label">Total Savings Growth</div><div class="result-value" id="sav-total">$49,142.00</div></div>
+            <div class="form-group"><label>Monthly Savings ($)</label><input type="number" id="sav-monthly" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Annual Interest (%)</label><input type="number" id="sav-rate" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Period (Years)</label><input type="number" id="sav-years" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Total Savings Growth</div><div class="result-value" id="sav-total">$0.00</div></div>
           </div>
         </div>
 
         <!-- 14. Investment Return -->
         <div class="tool-view" id="view-investment">
           <div class="tool-form">
-            <div class="form-group"><label>Initial Investment ($)</label><input type="number" id="inv-init" class="custom-input" value="10000"></div>
-            <div class="form-group"><label>Final Value ($)</label><input type="number" id="inv-final" class="custom-input" value="18000"></div>
-            <div class="form-group"><label>Holding Period (Years)</label><input type="number" id="inv-years" class="custom-input" value="5"></div>
-            <div class="result-card"><div class="result-label">Annualized Return (CAGR)</div><div class="result-value" id="inv-cagr">12.47%</div></div>
+            <div class="form-group"><label>Initial Investment ($)</label><input type="number" id="inv-init" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Final Value ($)</label><input type="number" id="inv-final" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Holding Period (Years)</label><input type="number" id="inv-years" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Annualized Return (CAGR)</div><div class="result-value" id="inv-cagr">0.00%</div></div>
           </div>
         </div>
 
         <!-- 15. Retirement Calc -->
         <div class="tool-view" id="view-retirement">
           <div class="tool-form">
-            <div class="form-group"><label>Current Age</label><input type="number" id="ret-age" class="custom-input" value="30"></div>
-            <div class="form-group"><label>Retirement Age</label><input type="number" id="ret-target" class="custom-input" value="65"></div>
-            <div class="form-group"><label>Current Savings ($)</label><input type="number" id="ret-savings" class="custom-input" value="20000"></div>
-            <div class="form-group"><label>Monthly Contribution ($)</label><input type="number" id="ret-monthly" class="custom-input" value="500"></div>
-            <div class="result-card"><div class="result-label">Estimated Nest Egg</div><div class="result-value" id="ret-res">$985,000</div></div>
+            <div class="form-group"><label>Current Age</label><input type="number" id="ret-age" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Retirement Age</label><input type="number" id="ret-target" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Current Savings ($)</label><input type="number" id="ret-savings" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Monthly Contribution ($)</label><input type="number" id="ret-monthly" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Estimated Nest Egg</div><div class="result-value" id="ret-res">$0.00</div></div>
           </div>
         </div>
 
         <!-- 16. Inflation Calc -->
         <div class="tool-view" id="view-inflation">
           <div class="tool-form">
-            <div class="form-group"><label>Current Price ($)</label><input type="number" id="inf-amount" class="custom-input" value="100"></div>
-            <div class="form-group"><label>Avg Inflation Rate (%)</label><input type="number" id="inf-rate" class="custom-input" value="3.5"></div>
-            <div class="form-group"><label>Years in Future</label><input type="number" id="inf-years" class="custom-input" value="10"></div>
-            <div class="result-card"><div class="result-label">Future Cost</div><div class="result-value" id="inf-res">$141.06</div></div>
+            <div class="form-group"><label>Current Price ($)</label><input type="number" id="inf-amount" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Avg Inflation Rate (%)</label><input type="number" id="inf-rate" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Years in Future</label><input type="number" id="inf-years" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Future Cost</div><div class="result-value" id="inf-res">$0.00</div></div>
           </div>
         </div>
 
         <!-- 17. Credit Card Payoff -->
         <div class="tool-view" id="view-creditcard">
           <div class="tool-form">
-            <div class="form-group"><label>Card Balance ($)</label><input type="number" id="cc-balance" class="custom-input" value="5000"></div>
-            <div class="form-group"><label>Interest Rate (APR %)</label><input type="number" id="cc-rate" class="custom-input" value="19.9"></div>
-            <div class="form-group"><label>Monthly Payment ($)</label><input type="number" id="cc-pay" class="custom-input" value="200"></div>
-            <div class="result-card"><div class="result-label">Time to Pay Off</div><div class="result-value" id="cc-res">32 Months ($1,340 Interest)</div></div>
+            <div class="form-group"><label>Card Balance ($)</label><input type="number" id="cc-balance" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Interest Rate (APR %)</label><input type="number" id="cc-rate" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Monthly Payment ($)</label><input type="number" id="cc-pay" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Time to Pay Off</div><div class="result-value" id="cc-res">0 Months ($0 Interest)</div></div>
           </div>
         </div>
 
         <!-- 18. Sales Tax Calc -->
         <div class="tool-view" id="view-salestax">
           <div class="tool-form">
-            <div class="form-group"><label>Before Tax Amount ($)</label><input type="number" id="st-amount" class="custom-input" value="150"></div>
-            <div class="form-group"><label>Tax Rate (%)</label><input type="number" id="st-rate" class="custom-input" value="8.5"></div>
+            <div class="form-group"><label>Before Tax Amount ($)</label><input type="number" id="st-amount" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Tax Rate (%)</label><input type="number" id="st-rate" class="custom-input" placeholder="0"></div>
             <div class="summary-card result-card">
-              <div class="summary-row"><span>Total Price</span><strong id="st-total">$162.75</strong></div>
+              <div class="summary-row"><span>Total Price</span><strong id="st-total">$0.00</strong></div>
               <div class="summary-divider"></div>
-              <div class="summary-row sub"><span>Tax Amount:</span><span id="st-tax">$12.75</span></div>
+              <div class="summary-row sub"><span>Tax Amount:</span><span id="st-tax">$0.00</span></div>
             </div>
           </div>
         </div>
@@ -385,23 +385,23 @@
         <!-- 19. VAT / GST Calc -->
         <div class="tool-view" id="view-vatgst">
           <div class="tool-form">
-            <div class="form-group"><label>Net Amount ($)</label><input type="number" id="vat-amount" class="custom-input" value="500"></div>
-            <div class="form-group"><label>VAT / GST Rate (%)</label><input type="number" id="vat-rate" class="custom-input" value="18"></div>
-            <div class="result-card"><div class="result-label">Gross Amount (Incl. Tax)</div><div class="result-value" id="vat-res">$590.00</div></div>
+            <div class="form-group"><label>Net Amount ($)</label><input type="number" id="vat-amount" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>VAT / GST Rate (%)</label><input type="number" id="vat-rate" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Gross Amount (Incl. Tax)</div><div class="result-value" id="vat-res">$0.00</div></div>
           </div>
         </div>
 
         <!-- 20. Tip Calc -->
         <div class="tool-view" id="view-tip">
           <div class="tool-form">
-            <div class="form-group"><label>Bill Amount ($)</label><input type="number" id="tip-bill" class="custom-input" value="85.00"></div>
-            <div class="form-group"><label>Tip Percentage (%)</label><input type="number" id="tip-percent" class="custom-input" value="15"></div>
-            <div class="form-group"><label>Number of People</label><input type="number" id="tip-people" class="custom-input" value="2"></div>
+            <div class="form-group"><label>Bill Amount ($)</label><input type="number" id="tip-bill" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Tip Percentage (%)</label><input type="number" id="tip-percent" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Number of People</label><input type="number" id="tip-people" class="custom-input" placeholder="1"></div>
             <div class="summary-card result-card">
-              <div class="summary-row"><span>Per Person</span><strong id="tip-per-person">$48.88</strong></div>
+              <div class="summary-row"><span>Per Person</span><strong id="tip-per-person">$0.00</strong></div>
               <div class="summary-divider"></div>
-              <div class="summary-row sub"><span>Total Tip:</span><span id="tip-total-amount">$12.75</span></div>
-              <div class="summary-row sub"><span>Total Bill:</span><span id="tip-total-bill">$97.75</span></div>
+              <div class="summary-row sub"><span>Total Tip:</span><span id="tip-total-amount">$0.00</span></div>
+              <div class="summary-row sub"><span>Total Bill:</span><span id="tip-total-bill">$0.00</span></div>
             </div>
           </div>
         </div>
@@ -409,12 +409,12 @@
         <!-- 21. Discount Calc -->
         <div class="tool-view" id="view-discount">
           <div class="tool-form">
-            <div class="form-group"><label>Original Price ($)</label><input type="number" id="disc-price" class="custom-input" value="120.00"></div>
-            <div class="form-group"><label>Discount (%)</label><input type="number" id="disc-percent" class="custom-input" value="25"></div>
+            <div class="form-group"><label>Original Price ($)</label><input type="number" id="disc-price" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Discount (%)</label><input type="number" id="disc-percent" class="custom-input" placeholder="0"></div>
             <div class="summary-card result-card">
-              <div class="summary-row"><span>Final Price</span><strong id="disc-final">$90.00</strong></div>
+              <div class="summary-row"><span>Final Price</span><strong id="disc-final">$0.00</strong></div>
               <div class="summary-divider"></div>
-              <div class="summary-row sub"><span>You Save:</span><span id="disc-saved">$30.00</span></div>
+              <div class="summary-row sub"><span>You Save:</span><span id="disc-saved">$0.00</span></div>
             </div>
           </div>
         </div>
@@ -422,37 +422,37 @@
         <!-- 22. Profit Margin -->
         <div class="tool-view" id="view-profitmargin">
           <div class="tool-form">
-            <div class="form-group"><label>Cost Price ($)</label><input type="number" id="pm-cost" class="custom-input" value="60"></div>
-            <div class="form-group"><label>Selling Price ($)</label><input type="number" id="pm-sell" class="custom-input" value="100"></div>
-            <div class="result-card"><div class="result-label">Profit Margin</div><div class="result-value" id="pm-res">40.00% ($40 Profit)</div></div>
+            <div class="form-group"><label>Cost Price ($)</label><input type="number" id="pm-cost" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Selling Price ($)</label><input type="number" id="pm-sell" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Profit Margin</div><div class="result-value" id="pm-res">0.00% ($0 Profit)</div></div>
           </div>
         </div>
 
         <!-- 23. Profit & Loss -->
         <div class="tool-view" id="view-profitloss">
           <div class="tool-form">
-            <div class="form-group"><label>Total Income ($)</label><input type="number" id="pl-income" class="custom-input" value="15000"></div>
-            <div class="form-group"><label>Total Expenses ($)</label><input type="number" id="pl-expenses" class="custom-input" value="9500"></div>
-            <div class="result-card"><div class="result-label">Net Result</div><div class="result-value" id="pl-res">+$5,500.00 (Net Profit)</div></div>
+            <div class="form-group"><label>Total Income ($)</label><input type="number" id="pl-income" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Total Expenses ($)</label><input type="number" id="pl-expenses" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Net Result</div><div class="result-value" id="pl-res">$0.00</div></div>
           </div>
         </div>
 
         <!-- 24. Commission Calc -->
         <div class="tool-view" id="view-commission">
           <div class="tool-form">
-            <div class="form-group"><label>Sale Amount ($)</label><input type="number" id="comm-sale" class="custom-input" value="12000"></div>
-            <div class="form-group"><label>Commission Rate (%)</label><input type="number" id="comm-rate" class="custom-input" value="5"></div>
-            <div class="result-card"><div class="result-label">Commission Earned</div><div class="result-value" id="comm-res">$600.00</div></div>
+            <div class="form-group"><label>Sale Amount ($)</label><input type="number" id="comm-sale" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Commission Rate (%)</label><input type="number" id="comm-rate" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Commission Earned</div><div class="result-value" id="comm-res">$0.00</div></div>
           </div>
         </div>
 
         <!-- 25. Salary Calc -->
         <div class="tool-view" id="view-salary">
           <div class="tool-form">
-            <div class="form-group"><label>Annual Salary ($)</label><input type="number" id="sal-annual" class="custom-input" value="65000"></div>
+            <div class="form-group"><label>Annual Salary ($)</label><input type="number" id="sal-annual" class="custom-input" placeholder="0"></div>
             <div class="metrics-grid col-2">
-              <div class="metric-item"><span class="m-val" id="sal-monthly">$5,416.67</span><span class="m-lbl">Monthly</span></div>
-              <div class="metric-item"><span class="m-val" id="sal-weekly">$1,250.00</span><span class="m-lbl">Weekly</span></div>
+              <div class="metric-item"><span class="m-val" id="sal-monthly">$0.00</span><span class="m-lbl">Monthly</span></div>
+              <div class="metric-item"><span class="m-val" id="sal-weekly">$0.00</span><span class="m-lbl">Weekly</span></div>
             </div>
           </div>
         </div>
@@ -460,18 +460,18 @@
         <!-- 26. Hourly Wage Calc -->
         <div class="tool-view" id="view-hourly">
           <div class="tool-form">
-            <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="hw-rate" class="custom-input" value="25"></div>
-            <div class="form-group"><label>Hours per Week</label><input type="number" id="hw-hours" class="custom-input" value="40"></div>
-            <div class="result-card"><div class="result-label">Estimated Annual Earnings</div><div class="result-value" id="hw-res">$52,000.00</div></div>
+            <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="hw-rate" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Hours per Week</label><input type="number" id="hw-hours" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Estimated Annual Earnings</div><div class="result-value" id="hw-res">$0.00</div></div>
           </div>
         </div>
 
         <!-- 27. Price Per Unit -->
         <div class="tool-view" id="view-priceunit">
           <div class="tool-form">
-            <div class="form-group"><label>Total Price ($)</label><input type="number" id="ppu-price" class="custom-input" value="24.99"></div>
-            <div class="form-group"><label>Quantity / Units</label><input type="number" id="ppu-units" class="custom-input" value="12"></div>
-            <div class="result-card"><div class="result-label">Unit Price</div><div class="result-value" id="ppu-res">$2.08 / unit</div></div>
+            <div class="form-group"><label>Total Price ($)</label><input type="number" id="ppu-price" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Quantity / Units</label><input type="number" id="ppu-units" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Unit Price</div><div class="result-value" id="ppu-res">$0.00 / unit</div></div>
           </div>
         </div>
 
@@ -483,21 +483,21 @@
               <button class="toggle-tab" id="bmi-unit-imperial">Imperial (ft, lb)</button>
             </div>
             <div id="bmi-metric-inputs">
-              <div class="form-group"><label>Height (cm)</label><input type="number" id="bmi-height-cm" class="custom-input" value="175"></div>
-              <div class="form-group"><label>Weight (kg)</label><input type="number" id="bmi-weight-kg" class="custom-input" value="70"></div>
+              <div class="form-group"><label>Height (cm)</label><input type="number" id="bmi-height-cm" class="custom-input" placeholder="0"></div>
+              <div class="form-group"><label>Weight (kg)</label><input type="number" id="bmi-weight-kg" class="custom-input" placeholder="0"></div>
             </div>
             <div id="bmi-imperial-inputs" class="hidden">
               <div class="converter-row">
-                <input type="number" id="bmi-height-ft" class="custom-input" value="5" placeholder="ft">
-                <input type="number" id="bmi-height-in" class="custom-input" value="9" placeholder="in">
+                <input type="number" id="bmi-height-ft" class="custom-input" placeholder="ft">
+                <input type="number" id="bmi-height-in" class="custom-input" placeholder="in">
               </div>
-              <div class="form-group"><label>Weight (lbs)</label><input type="number" id="bmi-weight-lb" class="custom-input" value="154"></div>
+              <div class="form-group"><label>Weight (lbs)</label><input type="number" id="bmi-weight-lb" class="custom-input" placeholder="0"></div>
             </div>
             <div class="result-card">
               <div class="result-label">Your BMI</div>
-              <div class="bmi-score" id="bmi-score">22.9</div>
-              <div class="bmi-category-badge" id="bmi-category">Normal Weight</div>
-              <p class="sub-detail-text" id="bmi-healthy-range">Healthy Weight Range: 56.7 kg – 76.3 kg</p>
+              <div class="bmi-score" id="bmi-score">0.0</div>
+              <div class="bmi-category-badge" id="bmi-category">--</div>
+              <p class="sub-detail-text" id="bmi-healthy-range">Enter height and weight to calculate BMI</p>
             </div>
           </div>
         </div>
@@ -507,11 +507,11 @@
           <div class="tool-form">
             <div class="form-group"><label>Select Date of Birth</label><input type="date" id="age-dob" class="custom-input"></div>
             <div class="multi-result-card">
-              <div class="result-card"><div class="result-label">Your Exact Age</div><div class="primary-highlight" id="age-primary">--</div></div>
+              <div class="result-card"><div class="result-label">Your Exact Age</div><div class="primary-highlight" id="age-primary">Select Date of Birth</div></div>
               <div class="metrics-grid col-3">
-                <div class="metric-item"><span class="m-val" id="age-months">--</span><span class="m-lbl">Months</span></div>
-                <div class="metric-item"><span class="m-val" id="age-weeks">--</span><span class="m-lbl">Weeks</span></div>
-                <div class="metric-item"><span class="m-val" id="age-days">--</span><span class="m-lbl">Days</span></div>
+                <div class="metric-item"><span class="m-val" id="age-months">0</span><span class="m-lbl">Months</span></div>
+                <div class="metric-item"><span class="m-val" id="age-weeks">0</span><span class="m-lbl">Weeks</span></div>
+                <div class="metric-item"><span class="m-val" id="age-days">0</span><span class="m-lbl">Days</span></div>
               </div>
               <div class="birthday-card" id="age-next-bday">🎉 Next Birthday in: --</div>
             </div>
@@ -521,83 +521,83 @@
         <!-- 30. Calorie Calc -->
         <div class="tool-view" id="view-calorie">
           <div class="tool-form">
-            <div class="form-group"><label>Age</label><input type="number" id="cal-age" class="custom-input" value="28"></div>
+            <div class="form-group"><label>Age</label><input type="number" id="cal-age" class="custom-input" placeholder="0"></div>
             <div class="form-group"><label>Gender</label><select id="cal-gender" class="custom-select"><option value="m">Male</option><option value="f">Female</option></select></div>
-            <div class="form-group"><label>Weight (kg)</label><input type="number" id="cal-weight" class="custom-input" value="70"></div>
-            <div class="form-group"><label>Height (cm)</label><input type="number" id="cal-height" class="custom-input" value="175"></div>
-            <div class="result-card"><div class="result-label">Daily Calorie Needs</div><div class="result-value" id="cal-res">2,250 kcal / day</div></div>
+            <div class="form-group"><label>Weight (kg)</label><input type="number" id="cal-weight" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Height (cm)</label><input type="number" id="cal-height" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Daily Calorie Needs</div><div class="result-value" id="cal-res">0 kcal / day</div></div>
           </div>
         </div>
 
         <!-- 31. BMR Calc -->
         <div class="tool-view" id="view-bmr">
           <div class="tool-form">
-            <div class="form-group"><label>Age</label><input type="number" id="bmr-age" class="custom-input" value="25"></div>
-            <div class="form-group"><label>Weight (kg)</label><input type="number" id="bmr-weight" class="custom-input" value="68"></div>
-            <div class="form-group"><label>Height (cm)</label><input type="number" id="bmr-height" class="custom-input" value="172"></div>
-            <div class="result-card"><div class="result-label">Basal Metabolic Rate</div><div class="result-value" id="bmr-res">1,650 kcal / day</div></div>
+            <div class="form-group"><label>Age</label><input type="number" id="bmr-age" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Weight (kg)</label><input type="number" id="bmr-weight" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Height (cm)</label><input type="number" id="bmr-height" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Basal Metabolic Rate</div><div class="result-value" id="bmr-res">0 kcal / day</div></div>
           </div>
         </div>
 
         <!-- 32. Body Fat Calc -->
         <div class="tool-view" id="view-bodyfat">
           <div class="tool-form">
-            <div class="form-group"><label>Waist (cm)</label><input type="number" id="bf-waist" class="custom-input" value="82"></div>
-            <div class="form-group"><label>Neck (cm)</label><input type="number" id="bf-neck" class="custom-input" value="38"></div>
-            <div class="form-group"><label>Height (cm)</label><input type="number" id="bf-height" class="custom-input" value="175"></div>
-            <div class="result-card"><div class="result-label">Est. Body Fat</div><div class="result-value" id="bf-res">16.5%</div></div>
+            <div class="form-group"><label>Waist (cm)</label><input type="number" id="bf-waist" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Neck (cm)</label><input type="number" id="bf-neck" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Height (cm)</label><input type="number" id="bf-height" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Est. Body Fat</div><div class="result-value" id="bf-res">0.0%</div></div>
           </div>
         </div>
 
         <!-- 33. Ideal Weight -->
         <div class="tool-view" id="view-idealweight">
           <div class="tool-form">
-            <div class="form-group"><label>Height (cm)</label><input type="number" id="iw-height" class="custom-input" value="175"></div>
-            <div class="result-card"><div class="result-label">Ideal Weight Range</div><div class="result-value" id="iw-res">64 kg – 71 kg</div></div>
+            <div class="form-group"><label>Height (cm)</label><input type="number" id="iw-height" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Ideal Weight Range</div><div class="result-value" id="iw-res">0 kg</div></div>
           </div>
         </div>
 
         <!-- 34. Water Intake -->
         <div class="tool-view" id="view-water">
           <div class="tool-form">
-            <div class="form-group"><label>Weight (kg)</label><input type="number" id="water-weight" class="custom-input" value="70"></div>
-            <div class="result-card"><div class="result-label">Recommended Daily Water</div><div class="result-value" id="water-res">2.4 Liters / Day</div></div>
+            <div class="form-group"><label>Weight (kg)</label><input type="number" id="water-weight" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Recommended Daily Water</div><div class="result-value" id="water-res">0.0 Liters / Day</div></div>
           </div>
         </div>
 
         <!-- 35. Fuel Cost -->
         <div class="tool-view" id="view-fuelcost">
           <div class="tool-form">
-            <div class="form-group"><label>Distance (km)</label><input type="number" id="fc-distance" class="custom-input" value="350"></div>
-            <div class="form-group"><label>Efficiency (km / Liter)</label><input type="number" id="fc-eff" class="custom-input" value="14"></div>
-            <div class="form-group"><label>Fuel Price ($ / Liter)</label><input type="number" id="fc-price" class="custom-input" value="1.5"></div>
-            <div class="result-card"><div class="result-label">Total Trip Fuel Cost</div><div class="result-value" id="fc-res">$37.50</div></div>
+            <div class="form-group"><label>Distance (km)</label><input type="number" id="fc-distance" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Efficiency (km / Liter)</label><input type="number" id="fc-eff" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Fuel Price ($ / Liter)</label><input type="number" id="fc-price" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Total Trip Fuel Cost</div><div class="result-value" id="fc-res">$0.00</div></div>
           </div>
         </div>
 
         <!-- 36. Fuel Consumption -->
         <div class="tool-view" id="view-fuelconsumption">
           <div class="tool-form">
-            <div class="form-group"><label>Distance Traveled (km)</label><input type="number" id="fcon-dist" class="custom-input" value="450"></div>
-            <div class="form-group"><label>Fuel Used (Liters)</label><input type="number" id="fcon-fuel" class="custom-input" value="36"></div>
-            <div class="result-card"><div class="result-label">Consumption</div><div class="result-value" id="fcon-res">8.0 L / 100km (12.5 km/L)</div></div>
+            <div class="form-group"><label>Distance Traveled (km)</label><input type="number" id="fcon-dist" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Fuel Used (Liters)</label><input type="number" id="fcon-fuel" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Consumption</div><div class="result-value" id="fcon-res">0.0 L / 100km</div></div>
           </div>
         </div>
 
         <!-- 37. GPA Calc -->
         <div class="tool-view" id="view-gpa">
           <div class="tool-form">
-            <div class="form-group"><label>Total Grade Points</label><input type="number" id="gpa-points" class="custom-input" value="42"></div>
-            <div class="form-group"><label>Total Credit Hours</label><input type="number" id="gpa-credits" class="custom-input" value="12"></div>
-            <div class="result-card"><div class="result-label">GPA (4.0 Scale)</div><div class="result-value" id="gpa-res">3.50</div></div>
+            <div class="form-group"><label>Total Grade Points</label><input type="number" id="gpa-points" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>Total Credit Hours</label><input type="number" id="gpa-credits" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">GPA (4.0 Scale)</div><div class="result-value" id="gpa-res">0.00</div></div>
           </div>
         </div>
 
         <!-- 38. CGPA Calc -->
         <div class="tool-view" id="view-cgpa">
           <div class="tool-form">
-            <div class="form-group"><label>Enter Semester GPAs (comma-separated)</label><input type="text" id="cgpa-list" class="custom-input" value="3.4, 3.6, 3.8, 3.5"></div>
-            <div class="result-card"><div class="result-label">Cumulative GPA</div><div class="result-value" id="cgpa-res">3.58</div></div>
+            <div class="form-group"><label>Enter Semester GPAs (comma-separated)</label><input type="text" id="cgpa-list" class="custom-input" placeholder="e.g. 3.4, 3.6, 3.8"></div>
+            <div class="result-card"><div class="result-label">Cumulative GPA</div><div class="result-value" id="cgpa-res">0.00</div></div>
           </div>
         </div>
 
@@ -620,9 +620,9 @@
         <!-- 40. Time Duration -->
         <div class="tool-view" id="view-duration">
           <div class="tool-form">
-            <div class="form-group"><label>Start Time</label><input type="time" id="dur-start" class="custom-input" value="09:00"></div>
-            <div class="form-group"><label>End Time</label><input type="time" id="dur-end" class="custom-input" value="17:30"></div>
-            <div class="result-card"><div class="result-label">Elapsed Duration</div><div class="result-value" id="dur-res">8 Hours 30 Mins</div></div>
+            <div class="form-group"><label>Start Time</label><input type="time" id="dur-start" class="custom-input"></div>
+            <div class="form-group"><label>End Time</label><input type="time" id="dur-end" class="custom-input"></div>
+            <div class="result-card"><div class="result-label">Elapsed Duration</div><div class="result-value" id="dur-res">0 Hours 0 Mins</div></div>
           </div>
         </div>
 
@@ -637,10 +637,10 @@
         <!-- 42. Time Zone Converter -->
         <div class="tool-view" id="view-timezone">
           <div class="tool-form">
-            <div class="form-group"><label>Select Time</label><input type="time" id="tz-time" class="custom-input" value="14:00"></div>
-            <div class="form-group"><label>From UTC Offset</label><input type="number" id="tz-from" class="custom-input" value="0"></div>
-            <div class="form-group"><label>To UTC Offset</label><input type="number" id="tz-to" class="custom-input" value="5"></div>
-            <div class="result-card"><div class="result-label">Converted Time</div><div class="result-value" id="tz-res">19:00</div></div>
+            <div class="form-group"><label>Select Time</label><input type="time" id="tz-time" class="custom-input"></div>
+            <div class="form-group"><label>From UTC Offset</label><input type="number" id="tz-from" class="custom-input" placeholder="0"></div>
+            <div class="form-group"><label>To UTC Offset</label><input type="number" id="tz-to" class="custom-input" placeholder="0"></div>
+            <div class="result-card"><div class="result-label">Converted Time</div><div class="result-value" id="tz-res">--:--</div></div>
           </div>
         </div>
 
@@ -653,91 +653,91 @@
                 <option value="temperature">Temperature</option><option value="speed">Speed</option><option value="area">Area</option>
               </select>
             </div>
-            <div class="form-group"><label>Value</label><input type="number" id="unit-val" class="custom-input" value="1"></div>
+            <div class="form-group"><label>Value</label><input type="number" id="unit-val" class="custom-input" placeholder="0"></div>
             <div class="converter-row">
               <select id="unit-from" class="custom-select"></select>
               <button id="unit-swap-btn" class="icon-btn swap-btn">⇄</button>
               <select id="unit-to" class="custom-select"></select>
             </div>
-            <div class="result-card"><div class="result-label">Converted Value</div><div class="result-value" id="unit-result">--</div></div>
+            <div class="result-card"><div class="result-label">Converted Value</div><div class="result-value" id="unit-result">0</div></div>
           </div>
         </div>
 
         <!-- 44. Currency Converter -->
         <div class="tool-view" id="view-currency">
           <div class="tool-form">
-            <div class="form-group"><label>Amount</label><input type="number" id="curr-amount" class="custom-input" value="100"></div>
+            <div class="form-group"><label>Amount</label><input type="number" id="curr-amount" class="custom-input" placeholder="0"></div>
             <div class="converter-row">
               <select id="curr-from" class="custom-select"></select>
               <button id="curr-swap-btn" class="icon-btn swap-btn">⇄</button>
               <select id="curr-to" class="custom-select"></select>
             </div>
-            <div class="result-card"><div class="result-label">Converted Amount</div><div class="result-value" id="curr-result">--</div><p class="rate-status" id="curr-status">Fetching live rates...</p></div>
+            <div class="result-card"><div class="result-label">Converted Amount</div><div class="result-value" id="curr-result">0.00</div><p class="rate-status" id="curr-status">Fetching live rates...</p></div>
           </div>
         </div>
 
         <!-- 45. Data Storage -->
         <div class="tool-view" id="view-datastorage">
           <div class="tool-form">
-            <div class="form-group"><label>Value</label><input type="number" id="ds-val" class="custom-input" value="1024"></div>
+            <div class="form-group"><label>Value</label><input type="number" id="ds-val" class="custom-input" placeholder="0"></div>
             <div class="converter-row">
               <select id="ds-from" class="custom-select"><option value="MB">MB</option><option value="GB">GB</option><option value="TB">TB</option><option value="KB">KB</option></select>
               <span>to</span>
               <select id="ds-to" class="custom-select"><option value="GB">GB</option><option value="MB">MB</option><option value="TB">TB</option><option value="KB">KB</option></select>
             </div>
-            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="ds-res">1 GB</div></div>
+            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="ds-res">0 GB</div></div>
           </div>
         </div>
 
         <!-- 46. Volume Converter -->
         <div class="tool-view" id="view-volume">
           <div class="tool-form">
-            <div class="form-group"><label>Volume Value</label><input type="number" id="vol-val" class="custom-input" value="1"></div>
+            <div class="form-group"><label>Volume Value</label><input type="number" id="vol-val" class="custom-input" placeholder="0"></div>
             <div class="converter-row">
               <select id="vol-from" class="custom-select"><option value="l">Liter (L)</option><option value="ml">Milliliter (ml)</option><option value="gal">Gallon (gal)</option></select>
               <span>to</span>
               <select id="vol-to" class="custom-select"><option value="ml">Milliliter (ml)</option><option value="l">Liter (L)</option><option value="gal">Gallon (gal)</option></select>
             </div>
-            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="vol-res">1000 ml</div></div>
+            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="vol-res">0 ml</div></div>
           </div>
         </div>
 
         <!-- 47. Pressure Converter -->
         <div class="tool-view" id="view-pressure">
           <div class="tool-form">
-            <div class="form-group"><label>Pressure Value</label><input type="number" id="press-val" class="custom-input" value="1"></div>
+            <div class="form-group"><label>Pressure Value</label><input type="number" id="press-val" class="custom-input" placeholder="0"></div>
             <div class="converter-row">
               <select id="press-from" class="custom-select"><option value="bar">Bar</option><option value="psi">PSI</option><option value="pascal">Pascal (Pa)</option></select>
               <span>to</span>
               <select id="press-to" class="custom-select"><option value="psi">PSI</option><option value="bar">Bar</option><option value="pascal">Pascal (Pa)</option></select>
             </div>
-            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="press-res">14.5038 PSI</div></div>
+            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="press-res">0 PSI</div></div>
           </div>
         </div>
 
         <!-- 48. Energy Converter -->
         <div class="tool-view" id="view-energy">
           <div class="tool-form">
-            <div class="form-group"><label>Energy Value</label><input type="number" id="eng-val" class="custom-input" value="1"></div>
+            <div class="form-group"><label>Energy Value</label><input type="number" id="eng-val" class="custom-input" placeholder="0"></div>
             <div class="converter-row">
               <select id="eng-from" class="custom-select"><option value="kcal">KiloCalorie (kcal)</option><option value="joule">Joule (J)</option><option value="kwh">KWh</option></select>
               <span>to</span>
               <select id="eng-to" class="custom-select"><option value="joule">Joule (J)</option><option value="kcal">KiloCalorie (kcal)</option><option value="kwh">KWh</option></select>
             </div>
-            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="eng-res">4184 Joules</div></div>
+            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="eng-res">0 Joules</div></div>
           </div>
         </div>
 
         <!-- 49. Cooking Converter -->
         <div class="tool-view" id="view-cooking">
           <div class="tool-form">
-            <div class="form-group"><label>Value</label><input type="number" id="cook-val" class="custom-input" value="1"></div>
+            <div class="form-group"><label>Value</label><input type="number" id="cook-val" class="custom-input" placeholder="0"></div>
             <div class="converter-row">
               <select id="cook-from" class="custom-select"><option value="cup">Cup</option><option value="tbsp">Tablespoon (tbsp)</option><option value="tsp">Teaspoon (tsp)</option></select>
               <span>to</span>
               <select id="cook-to" class="custom-select"><option value="tbsp">Tablespoon (tbsp)</option><option value="cup">Cup</option><option value="tsp">Teaspoon (tsp)</option></select>
             </div>
-            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="cook-res">16 tbsp</div></div>
+            <div class="result-card"><div class="result-label">Result</div><div class="result-value" id="cook-res">0 tbsp</div></div>
           </div>
         </div>
 
